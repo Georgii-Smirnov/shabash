@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Shabash — точка входа стилей (premium)
+   ========================================================================== */
+
+@import url("base/fonts.css");
+@import url("base/variables.css");
+@import url("base/reset.css");
+@import url("base/typography.css");
+@import url("base/layout.css");
+
+@import url("blocks/button.css");
+@import url("blocks/card.css");
+@import url("blocks/header.css");
+@import url("blocks/menu.css");
+@import url("blocks/hero.css");
+
+/* Далее по мере появления:
+@import url("blocks/footer.css");
+*/

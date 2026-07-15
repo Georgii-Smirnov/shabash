@@ -1,0 +1,111 @@
+/* ==========================================================================
+   Block: button — premium CTAs
+   ========================================================================== */
+
+.button {
+  --button-bg: var(--color-primary);
+  --button-bg-hover: var(--color-primary-hover);
+  --button-color: var(--color-text-on-primary);
+  --button-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-s);
+  min-height: 3.25rem;
+  padding: 0.875rem 1.75rem;
+  border: 1px solid var(--button-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--button-bg);
+  color: var(--button-color);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: var(--shadow-xs);
+  transition:
+    background-color var(--transition),
+    color var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.button:hover {
+  background-color: var(--button-bg-hover);
+  color: var(--button-color);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+/* Secondary — outline on light */
+.button--secondary {
+  --button-bg: transparent;
+  --button-bg-hover: var(--color-primary);
+  --button-color: var(--color-olive);
+  --button-border: var(--color-border-strong);
+}
+
+.button--secondary:hover {
+  --button-color: var(--color-text-on-primary);
+  --button-border: var(--color-primary);
+}
+
+/* Ghost — minimal */
+.button--ghost {
+  --button-bg: transparent;
+  --button-bg-hover: rgba(139, 155, 130, 0.12);
+  --button-color: var(--color-olive);
+  --button-border: transparent;
+  box-shadow: none;
+  padding-inline: 1rem;
+}
+
+.button--ghost:hover {
+  box-shadow: none;
+}
+
+/* On dark surfaces */
+.button--on-dark {
+  --button-bg: var(--color-paper);
+  --button-bg-hover: var(--color-cream-soft);
+  --button-color: var(--color-ink);
+}
+
+.button--outline-light {
+  --button-bg: transparent;
+  --button-bg-hover: rgba(242, 237, 228, 0.12);
+  --button-color: var(--color-text-inverse);
+  --button-border: rgba(242, 237, 228, 0.45);
+}
+
+.button--outline-light:hover {
+  --button-border: var(--color-text-inverse);
+}
+
+/* Size variants */
+.button--s {
+  min-height: 2.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: var(--font-size-xs);
+}
+
+.button--l {
+  min-height: 3.75rem;
+  padding: 1rem 2.25rem;
+  font-size: var(--font-size-m);
+}

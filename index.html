@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Шабаш — премиальная студия красоты">
+  <title>Шабаш — студия красоты</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="header__inner">
+      <a class="header__address" href="https://yandex.ru/maps" target="_blank" rel="noopener noreferrer">
+        <svg class="header__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill="currentColor"/>
+        </svg>
+        <span>Москва, пр-т Вернадского, 36</span>
+      </a>
+
+      <a class="header__logo" href="./" aria-label="Шабаш — студия красоты">
+        <img
+          class="header__logo-img"
+          src="img/logo.png"
+          alt="Шабаш — студия красоты"
+          width="150"
+          height="40"
+        >
+      </a>
+
+      <div class="header__actions">
+        <a class="header__phone" href="tel:+79999999999">
+          <svg class="header__icon header__icon--phone" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z" fill="currentColor"/>
+          </svg>
+          <span>+7 (999) 999-99-99</span>
+        </a>
+
+        <button
+          class="burger"
+          id="burger"
+          type="button"
+          aria-label="Открыть меню"
+          aria-controls="menu"
+          aria-expanded="false"
+        >
+          <span class="burger__line" aria-hidden="true"></span>
+          <span class="burger__line" aria-hidden="true"></span>
+          <span class="burger__line" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay" hidden></div>
+
+  <aside class="menu" id="menu" aria-hidden="true" aria-labelledby="menu-title">
+    <div class="menu__head">
+      <p class="menu__title" id="menu-title">Контакты</p>
+      <button class="menu__close" id="menu-close" type="button" aria-label="Закрыть меню">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <div class="menu__body">
+      <p class="menu__hours">Ежедневно с 10:00 до 21:00</p>
+      <a class="menu__contact" href="https://yandex.ru/maps" target="_blank" rel="noopener noreferrer">
+        Москва, пр-т Вернадского, 36
+      </a>
+      <a class="menu__contact menu__contact--phone" href="tel:+79999999999">
+        +7 (999) 999-99-99
+      </a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero__bg" aria-hidden="true">
+        <img
+          class="hero__photo"
+          src="img/hero.jpg"
+          alt=""
+          width="1152"
+          height="864"
+          fetchpriority="high"
+          decoding="async"
+        >
+        <div class="hero__overlay"></div>
+      </div>
+
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <p class="hero__badge">Ежедневно с 10:00 до 21:00</p>
+
+          <h1 class="hero__title" id="hero-title">
+            Услуги красоты премиум-класса<br>
+            в салоне Шабаш
+          </h1>
+
+          <div class="hero__text">
+            <p>
+              Профессиональные мастера, сертифицированные препараты<br>
+              и косметика класса люкс
+            </p>
+          </div>
+
+          <div class="hero__buttons">
+            <a class="hero__btn" href="#booking">
+              <span>записаться на консультацию</span>
+            </a>
+
+            <div class="hero__note">
+              <svg class="hero__note-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z" fill="currentColor"/>
+              </svg>
+              <p>
+                <strong>Перезвоним и проконсультируем</strong>
+                <span>через 5 минут</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a class="hero__scroll" href="#after-hero" aria-label="Скролл">
+        <span class="hero__scroll-mouse" aria-hidden="true">
+          <span class="hero__scroll-wheel"></span>
+        </span>
+        <span class="hero__scroll-label">Скролл</span>
+        <span class="hero__scroll-chevron" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <div id="after-hero" tabindex="-1"></div>
+  </main>
+
+  <footer class="footer">
+    <!-- подвал -->
+  </footer>
+</body>
+</html>

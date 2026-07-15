@@ -1,0 +1,123 @@
+/* ==========================================================================
+   Premium typography
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: rgba(139, 155, 130, 0.28);
+  color: var(--color-ink);
+}
+
+/* —— Headings —— */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading {
+  font-family: var(--font-family-display);
+  font-weight: 400;
+  color: var(--color-text-heading);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  text-wrap: balance;
+}
+
+h1,
+.heading--1 {
+  font-size: var(--font-size-5xl);
+  line-height: var(--line-height-tight);
+}
+
+h2,
+.heading--2 {
+  font-size: var(--font-size-4xl);
+}
+
+h3,
+.heading--3 {
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-snug);
+}
+
+h4,
+.heading--4 {
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-snug);
+}
+
+h5,
+.heading--5 {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-snug);
+}
+
+/* —— Text helpers —— */
+.lead {
+  font-size: var(--font-size-l);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-muted);
+  max-width: 36em;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-inverse {
+  color: var(--color-text-inverse);
+}
+
+/* Eyebrow / label — boutique signature */
+.label {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+/* Links */
+a:not([class]) {
+  color: var(--color-primary);
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  transition: background-size var(--transition), color var(--transition);
+}
+
+a:not([class]):hover {
+  color: var(--color-primary-hover);
+  background-size: 100% 1px;
+}
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+/* Soften default button chrome when classed later */
+button {
+  cursor: pointer;
+}
