@@ -11,11 +11,21 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-s);
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   overflow: hidden;
+  transition:
+    background-color 2.2s ease 0.35s,
+    border-color 2.2s ease 0.35s,
+    box-shadow 2.2s ease 0.4s;
+}
+
+.specialist__card.is-inview {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-s);
 }
 
 .specialist__layout {
@@ -25,21 +35,52 @@
   align-items: stretch;
 }
 
+/* entrance: halves dock like a puzzle — more travel, slower ease */
+.specialist__media,
+.specialist__intro {
+  opacity: 0;
+  transition:
+    opacity 1.6s ease,
+    transform 1.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.specialist__media {
+  transform: translate3d(-5.5rem, 0, 0);
+}
+
+.specialist__intro {
+  transform: translate3d(5.5rem, 0, 0);
+}
+
+.specialist__card.is-inview .specialist__media,
+.specialist__card.is-inview .specialist__intro {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.specialist__card.is-inview .specialist__intro {
+  transition-delay: 0.22s;
+}
+
 /* —— Portrait (master) —— */
 .specialist__media {
   position: relative;
-  min-height: 100%;
+  min-height: 34rem;
+  max-height: 40rem;
   background: var(--color-paper-soft);
   overflow: hidden;
+  border-radius: 0;
 }
 
 .specialist__photo {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 28rem;
+  min-height: 34rem;
+  max-height: 40rem;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 20%;
+  border-radius: 0;
 }
 
 /* —— Intro (right) —— */
@@ -174,21 +215,68 @@
   transform: translate(-50%, -50%) scaleY(0);
 }
 
-/* —— Expandable panel —— */
+/* —— Expandable panel (smooth slide) —— */
 .specialist__panel {
+  display: grid;
+  grid-template-rows: 0fr;
   border-top: 1px solid transparent;
   background: var(--color-cream-soft);
+  transition:
+    grid-template-rows 0.55s var(--ease-out),
+    border-top-color 0.35s ease;
 }
 
 .specialist__panel.is-open {
+  grid-template-rows: 1fr;
   border-top-color: var(--color-border);
+}
+
+.specialist__panel-clip {
+  min-height: 0;
+  overflow: hidden;
 }
 
 .specialist__panel-inner {
   display: grid;
-  gap: clamp(1.75rem, 3vw, 2.5rem);
-  padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.75rem, 4vw, 3.25rem)
+  /* те же доли, что .specialist__layout — фото стыкуются углами */
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 0;
+  align-items: stretch;
+  opacity: 0;
+  transform: translateY(-0.75rem);
+  transition:
+    opacity 0.4s ease 0.08s,
+    transform 0.5s var(--ease-out) 0.05s;
+}
+
+.specialist__panel.is-open .specialist__panel-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* left under master photo: text / price / cta */
+.specialist__details {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+  padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.5rem, 3.5vw, 2.75rem)
     clamp(2rem, 4vw, 3rem);
+  border-right: 1px solid var(--color-border);
+}
+
+/* right photo — same column as intro, corners meet master photo */
+.specialist__media--side {
+  min-height: 34rem;
+  max-height: none;
+  height: 100%;
+  border-left: 0;
+}
+
+.specialist__media--side .specialist__photo {
+  min-height: 34rem;
+  max-height: none;
+  height: 100%;
+  object-position: center;
 }
 
 .specialist__subtitle {
@@ -201,14 +289,17 @@
   color: var(--color-sage-dark);
 }
 
-.specialist__about {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-  gap: clamp(1.25rem, 3vw, 2.25rem);
-  align-items: stretch;
+.specialist__subtitle::after {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 1px;
+  margin-top: 0.65rem;
+  background: var(--color-sage);
+  opacity: 0.7;
 }
 
-.specialist__about-text p {
+.specialist__about p {
   margin: 0;
   max-width: 36rem;
   font-family: var(--font-family-ui);
@@ -219,30 +310,10 @@
   opacity: 0.9;
 }
 
-/* tools — в раскрытии, рядом с текстом «О мастере» */
-.specialist__mood {
-  margin: 0;
-  border-radius: var(--radius-m);
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-  background: var(--color-paper-soft);
-  box-shadow: var(--shadow-xs);
-  min-height: 12rem;
-}
-
-.specialist__mood-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 12rem;
-  object-fit: cover;
-  object-position: center;
-}
-
 /* —— Price cards —— */
 .specialist__price-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.85rem;
   margin: 0;
   padding: 0;
@@ -307,13 +378,11 @@
 
 .specialist__phone {
   display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
   color: var(--color-ink);
   font-family: var(--font-family-ui);
-  font-size: 1.05rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
   text-decoration: none;
   transition: color 0.25s ease;
 }
@@ -322,11 +391,38 @@
   color: var(--color-sage-dark);
 }
 
+.specialist__phone-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
 .specialist__phone-icon {
   width: 1.2rem;
   height: 1.2rem;
   flex-shrink: 0;
   color: var(--color-sage-dark);
+}
+
+.specialist__phone-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-sage-dark);
+}
+
+.specialist__phone-label::after {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 1px;
+  margin-top: 0.55rem;
+  background: var(--color-sage);
+  opacity: 0.7;
 }
 
 .specialist__book {
@@ -380,12 +476,24 @@
 
 /* —— Responsive —— */
 @media (max-width: 1024px) {
-  .specialist__price-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .specialist__media {
+    min-height: 32rem;
+    max-height: 36rem;
   }
 
   .specialist__photo {
-    min-height: 24rem;
+    min-height: 32rem;
+    max-height: 36rem;
+  }
+
+  .specialist__media--side {
+    min-height: 32rem;
+    max-height: none;
+  }
+
+  .specialist__media--side .specialist__photo {
+    min-height: 32rem;
+    max-height: none;
   }
 }
 
@@ -395,26 +503,44 @@
   }
 
   .specialist__media {
-    max-height: 22rem;
+    min-height: 28rem;
+    max-height: 32rem;
+    transform: translate3d(0, -3rem, 0);
   }
 
   .specialist__photo {
-    min-height: 18rem;
-    max-height: 22rem;
+    min-height: 28rem;
+    max-height: 32rem;
   }
 
-  .specialist__about {
+  .specialist__intro {
+    transform: translate3d(0, 3rem, 0);
+  }
+
+  .specialist__card.is-inview .specialist__media,
+  .specialist__card.is-inview .specialist__intro {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .specialist__panel-inner {
     grid-template-columns: 1fr;
   }
 
-  .specialist__mood {
-    min-height: 0;
-    max-height: 14rem;
+  .specialist__details {
+    border-right: 0;
   }
 
-  .specialist__mood-img {
-    min-height: 12rem;
-    max-height: 14rem;
+  .specialist__media--side {
+    order: -1;
+    min-height: 20rem;
+    max-height: 24rem;
+    border-left: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .specialist__media--side .specialist__photo {
+    min-height: 20rem;
+    max-height: 24rem;
   }
 
   .specialist__intro {
@@ -424,12 +550,27 @@
 
 @media (max-width: 640px) {
   .specialist__card {
-    border-radius: var(--radius-l);
+    border-radius: 0;
+  }
+
+  .specialist__media {
+    min-height: 24rem;
+    max-height: 28rem;
   }
 
   .specialist__photo {
-    min-height: 16.5rem;
-    max-height: 18.5rem;
+    min-height: 24rem;
+    max-height: 28rem;
+  }
+
+  .specialist__media--side {
+    min-height: 16rem;
+    max-height: 18rem;
+  }
+
+  .specialist__media--side .specialist__photo {
+    min-height: 16rem;
+    max-height: 18rem;
   }
 
   .specialist__title {
@@ -446,7 +587,7 @@
     justify-content: center;
   }
 
-  .specialist__panel-inner {
+  .specialist__details {
     padding: 1.5rem 1.25rem 1.75rem;
     gap: 1.5rem;
   }
@@ -475,7 +616,7 @@
   }
 
   .specialist__phone {
-    justify-content: center;
+    align-items: center;
   }
 
   .specialist__book {
@@ -488,7 +629,25 @@
   .specialist__toggle-icon::before,
   .specialist__toggle-icon::after,
   .specialist__price-card,
-  .specialist__book {
+  .specialist__book,
+  .specialist__panel,
+  .specialist__panel-inner,
+  .specialist__media,
+  .specialist__intro,
+  .specialist__card {
     transition: none;
+  }
+
+  .specialist__panel-inner,
+  .specialist__media,
+  .specialist__intro {
+    opacity: 1;
+    transform: none;
+  }
+
+  .specialist__card {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-s);
   }
 }

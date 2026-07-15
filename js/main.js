@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeaderScroll();
   initMenu();
   initAccordions();
+  initReveal();
 });
 
 function initHeaderScroll() {
@@ -121,8 +122,9 @@ function initAccordions() {
 
     const setOpen = (open) => {
       trigger.setAttribute("aria-expanded", open ? "true" : "false");
-      panel.hidden = !open;
       panel.classList.toggle("is-open", open);
+      panel.setAttribute("aria-hidden", open ? "false" : "true");
+      panel.inert = !open;
 
       if (label) {
         label.textContent = open ? openLabel : closedLabel;
@@ -136,4 +138,30 @@ function initAccordions() {
       setOpen(!isOpen);
     });
   });
+}
+
+/** One-shot scroll reveal for specialist cards (puzzle dock). */
+function initReveal() {
+  const cards = document.querySelectorAll(".specialist__card");
+  if (!cards.length) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) {
+    cards.forEach((card) => card.classList.add("is-inview"));
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-inview");
+        io.unobserve(entry.target);
+      });
+    },
+    /* later in viewport so motion is on-screen, not already done */
+    { threshold: 0.35, rootMargin: "0px 0px -18% 0px" }
+  );
+
+  cards.forEach((card) => io.observe(card));
 }
