@@ -14,13 +14,6 @@
 <body>
   <header class="header" id="header">
     <div class="header__inner">
-      <a class="header__address" href="https://yandex.ru/maps" target="_blank" rel="noopener noreferrer">
-        <svg class="header__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill="currentColor"/>
-        </svg>
-        <span>Москва, пр-т Вернадского, 36</span>
-      </a>
-
       <a class="header__logo" href="./" aria-label="Шабаш — студия красоты">
         <img
           class="header__logo-img"
@@ -31,7 +24,27 @@
         >
       </a>
 
+      <nav class="header__nav" aria-label="Основная навигация">
+        <ul class="header__nav-list">
+          <li><a class="header__nav-link" href="#specialist">Специалисты</a></li>
+          <li><a class="header__nav-link" href="#docs">Документы</a></li>
+          <li><a class="header__nav-link" href="#location">Контакты</a></li>
+        </ul>
+      </nav>
+
       <div class="header__actions">
+        <a
+          class="header__address"
+          href="https://yandex.ru/maps/?text=Москва%2C%20пр-т%20Вернадского%2C%2036"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg class="header__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" fill="currentColor"/>
+          </svg>
+          <span>Москва, пр-т Вернадского, 36</span>
+        </a>
+
         <a class="header__phone" href="tel:+79999999999">
           <svg class="header__icon header__icon--phone" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z" fill="currentColor"/>
@@ -59,21 +72,27 @@
 
   <aside class="menu" id="menu" aria-hidden="true" aria-labelledby="menu-title">
     <div class="menu__head">
-      <p class="menu__title" id="menu-title">Контакты</p>
-      <button class="menu__close" id="menu-close" type="button" aria-label="Закрыть меню">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </button>
+      <p class="menu__title" id="menu-title">Меню</p>
     </div>
 
     <div class="menu__body">
-      <p class="menu__hours">Ежедневно с 10:00 до 21:00</p>
-      <a class="menu__contact" href="https://yandex.ru/maps" target="_blank" rel="noopener noreferrer">
-        Москва, пр-т Вернадского, 36
-      </a>
-      <a class="menu__contact menu__contact--phone" href="tel:+79999999999">
-        +7 (999) 999-99-99
-      </a>
+      <nav class="menu__nav" aria-label="Навигация">
+        <ul class="menu__nav-list">
+          <li><a class="menu__nav-link" href="#specialist">Специалисты</a></li>
+          <li><a class="menu__nav-link" href="#docs">Документы</a></li>
+          <li><a class="menu__nav-link" href="#location">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <div class="menu__contacts">
+        <p class="menu__hours">Ежедневно с 10:00 до 21:00</p>
+        <a class="menu__contact" href="https://yandex.ru/maps" target="_blank" rel="noopener noreferrer">
+          Москва, пр-т Вернадского, 36
+        </a>
+        <a class="menu__contact menu__contact--phone" href="tel:+79999999999">
+          +7 (999) 999-99-99
+        </a>
+      </div>
     </div>
   </aside>
 
@@ -493,6 +512,477 @@
               </div>
             </div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      ACF:
+      masters[]
+        photo, name, role
+        documents[] → title, meta, badge, heading, text, fields[], file
+      Same UI on desktop and mobile: person switcher + accordion.
+    -->
+    <section class="docs section" id="docs" aria-labelledby="docs-title" data-docs>
+      <div class="container">
+        <header class="docs__intro">
+          <p class="docs__label">Документы мастеров</p>
+          <h2 class="docs__title" id="docs-title">Сертификаты и&nbsp;квалификация</h2>
+          <p class="docs__lead">
+            Выберите мастера и&nbsp;откройте нужный документ —
+            дипломы, сертификаты и&nbsp;курсы.
+          </p>
+        </header>
+
+        <div class="docs__people" aria-label="Мастера">
+        <button
+          class="docs__person is-active"
+          type="button"
+          id="docs-person-1"
+          aria-controls="docs-pack-1"
+          data-docs-person
+        >
+          <img class="docs__person-photo" src="img/master-colorist.jpg" alt="" width="64" height="64" loading="lazy" decoding="async">
+          <span class="docs__person-info">
+            <span class="docs__person-name">Юлия</span>
+            <span class="docs__person-role">Парикмахер-колорист</span>
+          </span>
+        </button>
+        <button
+          class="docs__person"
+          type="button"
+          id="docs-person-2"
+          aria-controls="docs-pack-2"
+          data-docs-person
+        >
+          <img class="docs__person-photo" src="img/master-nail.jpg" alt="" width="64" height="64" loading="lazy" decoding="async">
+          <span class="docs__person-info">
+            <span class="docs__person-name">Руслана</span>
+            <span class="docs__person-role">Ногтевой сервис</span>
+          </span>
+        </button>
+        <button
+          class="docs__person"
+          type="button"
+          id="docs-person-3"
+          aria-controls="docs-pack-3"
+          data-docs-person
+        >
+          <img class="docs__person-photo" src="img/master-cosmetologist.jpg" alt="" width="64" height="64" loading="lazy" decoding="async">
+          <span class="docs__person-info">
+            <span class="docs__person-name">Анна</span>
+            <span class="docs__person-role">Косметолог</span>
+          </span>
+        </button>
+        </div>
+
+        <div class="docs__packs">
+      <div
+        class="docs__pack is-active"
+        id="docs-pack-1"
+        aria-labelledby="docs-person-1"
+        
+        data-docs-pack
+      >
+          <article class="docs__item is-open" data-docs-item>
+            <button
+              class="docs__trigger"
+              type="button"
+              id="docs-m1-t1"
+              aria-controls="docs-m1-p1"
+              aria-expanded="true"
+              data-docs-trigger
+            >
+              <span class="docs__trigger-text">
+                <span class="docs__trigger-title">Диплом колориста</span>
+                <span class="docs__trigger-meta">Образование</span>
+              </span>
+              <span class="docs__chevron" aria-hidden="true"></span>
+            </button>
+            <div
+              class="docs__body"
+              id="docs-m1-p1"
+              role="region"
+              aria-labelledby="docs-m1-t1"
+              
+              data-docs-body
+            >
+              <div class="docs__body-inner">
+              <p class="docs__badge">Образование</p>
+              <h3 class="docs__heading">Диплом парикмахера-колориста</h3>
+              <p class="docs__text">Базовое профессиональное образование по&nbsp;специальности «Парикмахерское искусство» с&nbsp;акцентом на&nbsp;сложное окрашивание.</p>
+              <dl class="docs__fields">
+                <div class="docs__field">
+                  <dt class="docs__field-label">Учебное заведение</dt>
+                  <dd class="docs__field-value">Академия красоты, Москва</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Год</dt>
+                  <dd class="docs__field-value">2016</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Квалификация</dt>
+                  <dd class="docs__field-value">Парикмахер-колорист</dd>
+                </div>
+              </dl>
+              <a class="docs__file" href="#" target="_blank" rel="noopener noreferrer">Скачать PDF</a>
+            
+              </div>
+            </div>
+          </article>
+          <article class="docs__item" data-docs-item>
+            <button
+              class="docs__trigger"
+              type="button"
+              id="docs-m1-t2"
+              aria-controls="docs-m1-p2"
+              aria-expanded="false"
+              data-docs-trigger
+            >
+              <span class="docs__trigger-text">
+                <span class="docs__trigger-title">L’Oréal Professionnel</span>
+                <span class="docs__trigger-meta">Сертификат</span>
+              </span>
+              <span class="docs__chevron" aria-hidden="true"></span>
+            </button>
+            <div
+              class="docs__body"
+              id="docs-m1-p2"
+              role="region"
+              aria-labelledby="docs-m1-t2"
+              data-docs-body
+            >
+              <div class="docs__body-inner">
+              <p class="docs__badge">Сертификат</p>
+              <h3 class="docs__heading">L’Oréal Professionnel — колористика</h3>
+              <p class="docs__text">Сертифицированный курс по&nbsp;работе с&nbsp;брендом: диагностика, протоколы окрашивания и&nbsp;уход после процедуры.</p>
+              <dl class="docs__fields">
+                <div class="docs__field">
+                  <dt class="docs__field-label">Бренд</dt>
+                  <dd class="docs__field-value">L’Oréal Professionnel</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Год</dt>
+                  <dd class="docs__field-value">2021</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Статус</dt>
+                  <dd class="docs__field-value">Действует</dd>
+                </div>
+              </dl>
+              <a class="docs__file" href="#" target="_blank" rel="noopener noreferrer">Скачать PDF</a>
+            
+              </div>
+            </div>
+          </article>
+          <article class="docs__item" data-docs-item>
+            <button
+              class="docs__trigger"
+              type="button"
+              id="docs-m1-t3"
+              aria-controls="docs-m1-p3"
+              aria-expanded="false"
+              data-docs-trigger
+            >
+              <span class="docs__trigger-text">
+                <span class="docs__trigger-title">AirTouch / Balayage</span>
+                <span class="docs__trigger-meta">Курс</span>
+              </span>
+              <span class="docs__chevron" aria-hidden="true"></span>
+            </button>
+            <div
+              class="docs__body"
+              id="docs-m1-p3"
+              role="region"
+              aria-labelledby="docs-m1-t3"
+              data-docs-body
+            >
+              <div class="docs__body-inner">
+              <p class="docs__badge">Курс</p>
+              <h3 class="docs__heading">AirTouch и&nbsp;Balayage</h3>
+              <p class="docs__text">Интенсив по&nbsp;современным техникам свободного окрашивания и&nbsp;мягким переходам цвета.</p>
+              <dl class="docs__fields">
+                <div class="docs__field">
+                  <dt class="docs__field-label">Техники</dt>
+                  <dd class="docs__field-value">AirTouch, Balayage, shatush</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Год</dt>
+                  <dd class="docs__field-value">2023</dd>
+                </div>
+              </dl>
+              <a class="docs__file" href="#" target="_blank" rel="noopener noreferrer">Скачать PDF</a>
+            
+              </div>
+            </div>
+          </article>
+      </div>
+
+      <div
+        class="docs__pack"
+        id="docs-pack-2"
+        aria-labelledby="docs-person-2"
+         hidden
+        data-docs-pack
+      >
+          <article class="docs__item is-open" data-docs-item>
+            <button
+              class="docs__trigger"
+              type="button"
+              id="docs-m2-t1"
+              aria-controls="docs-m2-p1"
+              aria-expanded="true"
+              data-docs-trigger
+            >
+              <span class="docs__trigger-text">
+                <span class="docs__trigger-title">Диплом nail-мастера</span>
+                <span class="docs__trigger-meta">Образование</span>
+              </span>
+              <span class="docs__chevron" aria-hidden="true"></span>
+            </button>
+            <div
+              class="docs__body"
+              id="docs-m2-p1"
+              role="region"
+              aria-labelledby="docs-m2-t1"
+              
+              data-docs-body
+            >
+              <div class="docs__body-inner">
+              <p class="docs__badge">Образование</p>
+              <h3 class="docs__heading">Диплом мастера ногтевого сервиса</h3>
+              <p class="docs__text">Профессиональная подготовка по&nbsp;маникюру, педикюру и&nbsp;работе с&nbsp;натуральной пластиной.</p>
+              <dl class="docs__fields">
+                <div class="docs__field">
+                  <dt class="docs__field-label">Учебное заведение</dt>
+                  <dd class="docs__field-value">Школа nail-сервиса</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Год</dt>
+                  <dd class="docs__field-value">2018</dd>
+                </div>
+              </dl>
+              <a class="docs__file" href="#" target="_blank" rel="noopener noreferrer">Скачать PDF</a>
+            
+              </div>
+            </div>
+          </article>
+          <article class="docs__item" data-docs-item>
+            <button
+              class="docs__trigger"
+              type="button"
+              id="docs-m2-t2"
+              aria-controls="docs-m2-p2"
+              aria-expanded="false"
+              data-docs-trigger
+            >
+              <span class="docs__trigger-text">
+                <span class="docs__trigger-title">Аппаратный маникюр</span>
+                <span class="docs__trigger-meta">Сертификат</span>
+              </span>
+              <span class="docs__chevron" aria-hidden="true"></span>
+            </button>
+            <div
+              class="docs__body"
+              id="docs-m2-p2"
+              role="region"
+              aria-labelledby="docs-m2-t2"
+              data-docs-body
+            >
+              <div class="docs__body-inner">
+              <p class="docs__badge">Сертификат</p>
+              <h3 class="docs__heading">Аппаратный маникюр и&nbsp;педикюр</h3>
+              <p class="docs__text">Безопасные протоколы аппаратной обработки, фрезы и&nbsp;гигиена рабочего места.</p>
+              <dl class="docs__fields">
+                <div class="docs__field">
+                  <dt class="docs__field-label">Год</dt>
+                  <dd class="docs__field-value">2020</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Статус</dt>
+                  <dd class="docs__field-value">Действует</dd>
+                </div>
+              </dl>
+              <a class="docs__file" href="#" target="_blank" rel="noopener noreferrer">Скачать PDF</a>
+            
+              </div>
+            </div>
+          </article>
+          <article class="docs__item" data-docs-item>
+            <button
+              class="docs__trigger"
+              type="button"
+              id="docs-m2-t3"
+              aria-controls="docs-m2-p3"
+              aria-expanded="false"
+              data-docs-trigger
+            >
+              <span class="docs__trigger-text">
+                <span class="docs__trigger-title">Дизайн и&nbsp;гель</span>
+                <span class="docs__trigger-meta">Курс</span>
+              </span>
+              <span class="docs__chevron" aria-hidden="true"></span>
+            </button>
+            <div
+              class="docs__body"
+              id="docs-m2-p3"
+              role="region"
+              aria-labelledby="docs-m2-t3"
+              data-docs-body
+            >
+              <div class="docs__body-inner">
+              <p class="docs__badge">Курс</p>
+              <h3 class="docs__heading">Гель, укрепление и&nbsp;дизайн</h3>
+              <p class="docs__text">Современные покрытия, архитектура ногтя и&nbsp;аккуратный дизайн без&nbsp;перегруза.</p>
+              <dl class="docs__fields">
+                <div class="docs__field">
+                  <dt class="docs__field-label">Год</dt>
+                  <dd class="docs__field-value">2022</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Направление</dt>
+                  <dd class="docs__field-value">Гель / design</dd>
+                </div>
+              </dl>
+              <a class="docs__file" href="#" target="_blank" rel="noopener noreferrer">Скачать PDF</a>
+            
+              </div>
+            </div>
+          </article>
+      </div>
+
+      <div
+        class="docs__pack"
+        id="docs-pack-3"
+        aria-labelledby="docs-person-3"
+         hidden
+        data-docs-pack
+      >
+          <article class="docs__item is-open" data-docs-item>
+            <button
+              class="docs__trigger"
+              type="button"
+              id="docs-m3-t1"
+              aria-controls="docs-m3-p1"
+              aria-expanded="true"
+              data-docs-trigger
+            >
+              <span class="docs__trigger-text">
+                <span class="docs__trigger-title">Диплом косметолога</span>
+                <span class="docs__trigger-meta">Образование</span>
+              </span>
+              <span class="docs__chevron" aria-hidden="true"></span>
+            </button>
+            <div
+              class="docs__body"
+              id="docs-m3-p1"
+              role="region"
+              aria-labelledby="docs-m3-t1"
+              
+              data-docs-body
+            >
+              <div class="docs__body-inner">
+              <p class="docs__badge">Образование</p>
+              <h3 class="docs__heading">Диплом косметолога-эстетиста</h3>
+              <p class="docs__text">Профессиональная подготовка по&nbsp;уходу за&nbsp;кожей лица, диагностике и&nbsp;эстетическим процедурам.</p>
+              <dl class="docs__fields">
+                <div class="docs__field">
+                  <dt class="docs__field-label">Учебное заведение</dt>
+                  <dd class="docs__field-value">Колледж эстетической медицины</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Год</dt>
+                  <dd class="docs__field-value">2017</dd>
+                </div>
+              </dl>
+              <a class="docs__file" href="#" target="_blank" rel="noopener noreferrer">Скачать PDF</a>
+            
+              </div>
+            </div>
+          </article>
+          <article class="docs__item" data-docs-item>
+            <button
+              class="docs__trigger"
+              type="button"
+              id="docs-m3-t2"
+              aria-controls="docs-m3-p2"
+              aria-expanded="false"
+              data-docs-trigger
+            >
+              <span class="docs__trigger-text">
+                <span class="docs__trigger-title">Эстетическая косметология</span>
+                <span class="docs__trigger-meta">Сертификат</span>
+              </span>
+              <span class="docs__chevron" aria-hidden="true"></span>
+            </button>
+            <div
+              class="docs__body"
+              id="docs-m3-p2"
+              role="region"
+              aria-labelledby="docs-m3-t2"
+              data-docs-body
+            >
+              <div class="docs__body-inner">
+              <p class="docs__badge">Сертификат</p>
+              <h3 class="docs__heading">Эстетическая косметология</h3>
+              <p class="docs__text">Протоколы уходовых процедур, работа с&nbsp;чувствительной и&nbsp;возрастной кожей.</p>
+              <dl class="docs__fields">
+                <div class="docs__field">
+                  <dt class="docs__field-label">Год</dt>
+                  <dd class="docs__field-value">2019</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Статус</dt>
+                  <dd class="docs__field-value">Действует</dd>
+                </div>
+              </dl>
+              <a class="docs__file" href="#" target="_blank" rel="noopener noreferrer">Скачать PDF</a>
+            
+              </div>
+            </div>
+          </article>
+          <article class="docs__item" data-docs-item>
+            <button
+              class="docs__trigger"
+              type="button"
+              id="docs-m3-t3"
+              aria-controls="docs-m3-p3"
+              aria-expanded="false"
+              data-docs-trigger
+            >
+              <span class="docs__trigger-text">
+                <span class="docs__trigger-title">Пилинги и&nbsp;уходы</span>
+                <span class="docs__trigger-meta">Курс</span>
+              </span>
+              <span class="docs__chevron" aria-hidden="true"></span>
+            </button>
+            <div
+              class="docs__body"
+              id="docs-m3-p3"
+              role="region"
+              aria-labelledby="docs-m3-t3"
+              data-docs-body
+            >
+              <div class="docs__body-inner">
+              <p class="docs__badge">Курс</p>
+              <h3 class="docs__heading">Пилинги и&nbsp;восстанавливающие уходы</h3>
+              <p class="docs__text">Подбор кислот, постпилинговый уход и&nbsp;комбинации с&nbsp;аппаратными методиками в&nbsp;рамках эстетики.</p>
+              <dl class="docs__fields">
+                <div class="docs__field">
+                  <dt class="docs__field-label">Год</dt>
+                  <dd class="docs__field-value">2022</dd>
+                </div>
+                <div class="docs__field">
+                  <dt class="docs__field-label">Направление</dt>
+                  <dd class="docs__field-value">Пилинги / recovery</dd>
+                </div>
+              </dl>
+              <a class="docs__file" href="#" target="_blank" rel="noopener noreferrer">Скачать PDF</a>
+            
+              </div>
+            </div>
+          </article>
+      </div>
         </div>
       </div>
     </section>

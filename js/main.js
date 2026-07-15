@@ -3,32 +3,20 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  initHeaderScroll();
   initMenu();
   initAccordions();
+  initDocsTabs();
   initReveal();
 });
-
-function initHeaderScroll() {
-  const header = document.getElementById("header");
-  if (!header) return;
-
-  const onScroll = () => {
-    header.classList.toggle("is-scrolled", window.scrollY > 8);
-  };
-
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
-}
 
 function initMenu() {
   const burger = document.getElementById("burger");
   const menu = document.getElementById("menu");
   const overlay = document.getElementById("menu-overlay");
-  const closeBtn = document.getElementById("menu-close");
 
   if (!burger || !menu || !overlay) return;
 
+  /* trap focus: burger (always) + links inside drawer */
   const focusableSelector =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -43,9 +31,7 @@ function initMenu() {
     burger.setAttribute("aria-expanded", "true");
     burger.setAttribute("aria-label", "Закрыть меню");
     document.body.classList.add("is-menu-open");
-
-    const first = menu.querySelector(focusableSelector);
-    if (first) first.focus();
+    burger.focus();
   };
 
   const close = () => {
@@ -62,11 +48,7 @@ function initMenu() {
       }
     }, 400);
 
-    if (lastFocus && typeof lastFocus.focus === "function") {
-      lastFocus.focus();
-    } else {
-      burger.focus();
-    }
+    burger.focus();
   };
 
   const toggle = () => {
@@ -75,7 +57,6 @@ function initMenu() {
   };
 
   burger.addEventListener("click", toggle);
-  if (closeBtn) closeBtn.addEventListener("click", close);
   overlay.addEventListener("click", close);
 
   menu.querySelectorAll("a").forEach((link) => {
@@ -90,7 +71,8 @@ function initMenu() {
 
     if (event.key !== "Tab" || !menu.classList.contains("is-open")) return;
 
-    const items = [...menu.querySelectorAll(focusableSelector)];
+    const drawerItems = [...menu.querySelectorAll(focusableSelector)];
+    const items = [burger, ...drawerItems];
     if (!items.length) return;
 
     const first = items[0];
@@ -140,14 +122,70 @@ function initAccordions() {
   });
 }
 
-/** One-shot scroll reveal for specialist cards (puzzle dock). */
+/**
+ * Docs: person switcher + accordion items.
+ * Open state = .is-open only (CSS animates height/opacity).
+ *
+ * [data-docs]
+ *   [data-docs-person][aria-controls] → [data-docs-pack]
+ *   [data-docs-item] > [data-docs-trigger] + [data-docs-body]
+ */
+function initDocsTabs() {
+  const roots = document.querySelectorAll("[data-docs]");
+  if (!roots.length) return;
+
+  roots.forEach((root) => {
+    const people = [...root.querySelectorAll("[data-docs-person]")];
+    const packs = [...root.querySelectorAll("[data-docs-pack]")];
+
+    people.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("aria-controls");
+        people.forEach((p) => p.classList.toggle("is-active", p === btn));
+        packs.forEach((pack) => {
+          const on = pack.id === id;
+          pack.classList.toggle("is-active", on);
+          pack.hidden = !on;
+        });
+      });
+    });
+
+    root.querySelectorAll("[data-docs-pack]").forEach((pack) => {
+      const items = [...pack.querySelectorAll("[data-docs-item]")];
+
+      items.forEach((item) => {
+        const trigger = item.querySelector("[data-docs-trigger]");
+        if (!trigger) return;
+
+        trigger.addEventListener("click", () => {
+          const wasOpen = item.classList.contains("is-open");
+
+          items.forEach((other) => {
+            const open = other === item && !wasOpen;
+            other.classList.toggle("is-open", open);
+            const t = other.querySelector("[data-docs-trigger]");
+            const b = other.querySelector("[data-docs-body]");
+            if (t) t.setAttribute("aria-expanded", open ? "true" : "false");
+            if (b) b.setAttribute("aria-hidden", open ? "false" : "true");
+          });
+        });
+      });
+    });
+  });
+}
+
+/** One-shot scroll reveal for specialist cards + location block. */
 function initReveal() {
-  const cards = document.querySelectorAll(".specialist__card");
-  if (!cards.length) return;
+  const targets = [
+    ...document.querySelectorAll(".specialist__card"),
+    ...document.querySelectorAll(".docs"),
+    ...document.querySelectorAll(".location"),
+  ];
+  if (!targets.length) return;
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce || !("IntersectionObserver" in window)) {
-    cards.forEach((card) => card.classList.add("is-inview"));
+    targets.forEach((el) => el.classList.add("is-inview"));
     return;
   }
 
@@ -160,8 +198,8 @@ function initReveal() {
       });
     },
     /* later in viewport so motion is on-screen, not already done */
-    { threshold: 0.35, rootMargin: "0px 0px -18% 0px" }
+    { threshold: 0.22, rootMargin: "0px 0px -12% 0px" }
   );
 
-  cards.forEach((card) => io.observe(card));
+  targets.forEach((el) => io.observe(el));
 }

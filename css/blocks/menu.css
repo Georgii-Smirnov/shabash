@@ -2,7 +2,11 @@
    Burger + right drawer menu
    ========================================================================== */
 
-/* —— Burger button —— */
+/*
+  Stack (mobile menu open):
+  page < overlay (300) < drawer (310) < header shell (320) with only burger clickable
+*/
+/* —— Burger = one toggle (☰ → ✕) —— */
 .burger {
   display: none;
   position: relative;
@@ -19,6 +23,7 @@
   background: transparent;
   color: var(--color-ink);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .burger__line {
@@ -30,15 +35,16 @@
   border-radius: 1px;
   background: currentColor;
   transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.25s ease,
-    top 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    top 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .burger__line:nth-child(1) { top: calc(50% - 6px); }
 .burger__line:nth-child(2) { top: 50%; }
 .burger__line:nth-child(3) { top: calc(50% + 6px); }
 
+/* open: lines → cross */
 .burger[aria-expanded="true"] .burger__line:nth-child(1) {
   top: 50%;
   transform: rotate(45deg);
@@ -46,6 +52,7 @@
 
 .burger[aria-expanded="true"] .burger__line:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
 
 .burger[aria-expanded="true"] .burger__line:nth-child(3) {
@@ -58,11 +65,15 @@
   outline-offset: 3px;
 }
 
+.burger:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* —— Overlay —— */
 .menu-overlay {
   position: fixed;
   inset: 0;
-  z-index: calc(var(--z-header) + 10);
+  z-index: var(--z-overlay); /* 300 */
   background: rgba(28, 36, 32, 0.42);
   opacity: 0;
   visibility: hidden;
@@ -83,7 +94,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  z-index: calc(var(--z-header) + 20);
+  z-index: calc(var(--z-overlay) + 10); /* 310 */
   display: flex;
   flex-direction: column;
   width: min(20.5rem, 88vw);
@@ -108,10 +119,10 @@
 .menu__head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  padding: 0.35rem 0 1rem;
+  /* leave room so title doesn’t sit under the header burger/X */
+  padding-right: 3.25rem;
   border-bottom: 1px solid rgba(28, 36, 32, 0.1);
 }
 
@@ -124,52 +135,57 @@
   color: var(--color-ink);
 }
 
-.menu__close {
-  position: relative;
-  width: 2.5rem;
-  height: 2.5rem;
+.menu__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 0.25rem;
+  flex: 1 1 auto;
+}
+
+.menu__nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
   margin: 0;
   padding: 0;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
+  list-style: none;
+}
+
+.menu__nav-link {
+  display: block;
+  padding: 0.75rem 0;
+  font-family: var(--font-family-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
   color: var(--color-ink);
-  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(28, 36, 32, 0.08);
+  transition: color 0.3s ease, padding-left 0.3s ease;
 }
 
-.menu__close span {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 1.2rem;
-  height: 1.5px;
-  margin-left: -0.6rem;
-  background: currentColor;
-  border-radius: 1px;
+.menu__nav-link:hover {
+  color: var(--color-sage-dark);
+  padding-left: 0.35rem;
 }
 
-.menu__close span:first-child {
-  transform: rotate(45deg);
-}
-
-.menu__close span:last-child {
-  transform: rotate(-45deg);
-}
-
-.menu__close:focus-visible {
+.menu__nav-link:focus-visible {
   outline: 2px solid var(--color-sage);
   outline-offset: 3px;
 }
 
-.menu__body {
+.menu__contacts {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(28, 36, 32, 0.1);
 }
 
 .menu__hours {
-  margin: 0 0 0.35rem;
+  margin: 0;
   font-family: var(--font-family-ui);
   font-size: 0.75rem;
   font-weight: 500;
@@ -206,15 +222,42 @@ body.is-menu-open {
 }
 
 /*
-  Меню и оверлей выше header — иначе телефон/хедер
-  рисуются поверх выезжающей панели.
-  Закрытие: крестик в меню, оверлей, Escape.
+  Header sits above drawer ONLY so the same burger→✕ stays clickable.
+  Everything else in header is inert + invisible — no bar / blur “blob”.
 */
-body.is-menu-open .header__phone {
-  opacity: 0;
-  visibility: hidden;
+body.is-menu-open .header {
+  z-index: calc(var(--z-overlay) + 20); /* 320 > drawer */
+  background-color: transparent !important;
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   pointer-events: none;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+body.is-menu-open .header__inner {
+  pointer-events: none;
+}
+
+body.is-menu-open .burger {
+  pointer-events: auto;
+}
+
+body.is-menu-open .header__address,
+body.is-menu-open .header__logo,
+body.is-menu-open .header__nav,
+body.is-menu-open .header__phone {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* kill phone glow orbs completely (they look like random white blobs) */
+body.is-menu-open .header__phone::before,
+body.is-menu-open .header__phone::after {
+  content: none !important;
+  display: none !important;
+  opacity: 0 !important;
 }
 
 /* burger: tablet + phone (iPad mini / Pro / phones) */
@@ -230,6 +273,10 @@ body.is-menu-open .header__phone {
 
   .menu__title {
     font-size: 1.5rem;
+  }
+
+  .menu__nav-link {
+    font-size: 1.65rem;
   }
 
   .menu__contact {
@@ -249,6 +296,10 @@ body.is-menu-open .header__phone {
 
   .menu__title {
     font-size: 1.35rem;
+  }
+
+  .menu__nav-link {
+    font-size: 1.4rem;
   }
 
   .menu__contact {

@@ -726,12 +726,12 @@
   }
 
   .hero__badge {
-    color: #ffffff;
+    color: var(--color-ink);
   }
 
   .hero__badge::after {
-    background: #ffffff;
-    opacity: 0.75;
+    background: var(--color-ink);
+    opacity: 0.55;
   }
 
   .hero__photo {

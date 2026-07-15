@@ -265,6 +265,55 @@ a.location__item:hover .location__item-value {
   box-shadow: inset 0 0 0 1px rgba(242, 237, 228, 0.4);
 }
 
+/* —— Soft entrance on scroll —— */
+.location__media,
+.location__intro,
+.location__meta,
+.location__map-wrap {
+  opacity: 0;
+  transition:
+    opacity 0.95s var(--ease-out),
+    transform 1.05s var(--ease-out);
+}
+
+.location__media {
+  transform: translate3d(-1.75rem, 0, 0);
+}
+
+.location__intro {
+  transform: translate3d(0, 1.1rem, 0);
+  transition-delay: 0.08s;
+}
+
+.location__meta {
+  transform: translate3d(0, 0.9rem, 0);
+  transition-delay: 0.18s;
+}
+
+.location__map-wrap {
+  transform: translate3d(0, 1.15rem, 0);
+  transition-delay: 0.28s;
+}
+
+.location.is-inview .location__media,
+.location.is-inview .location__intro,
+.location.is-inview .location__meta,
+.location.is-inview .location__map-wrap {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .location__media,
+  .location__intro,
+  .location__meta,
+  .location__map-wrap {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* —— Tablet —— */
 @media (max-width: 1024px) {
   .location__layout {
