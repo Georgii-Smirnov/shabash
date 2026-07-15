@@ -48,6 +48,115 @@
   );
 }
 
+/* —— Soft sparkles over the photo (right side) —— */
+.hero__sparkles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero__sparkle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 252, 250, 1);
+  box-shadow:
+    0 0 6px 2px rgba(255, 252, 250, 0.85),
+    0 0 16px 4px rgba(255, 240, 210, 0.55),
+    0 0 28px 8px rgba(232, 220, 190, 0.28);
+  opacity: 0;
+  transform: scale(0.55);
+  animation: hero-sparkle-twinkle 4.2s ease-in-out infinite;
+}
+
+/* larger cross-star glints */
+.hero__sparkle--star {
+  width: 7px;
+  height: 7px;
+  background: rgba(255, 252, 250, 1);
+  box-shadow:
+    0 0 8px 2px rgba(255, 252, 250, 0.95),
+    0 0 20px 6px rgba(255, 240, 210, 0.65),
+    0 0 36px 10px rgba(232, 220, 190, 0.35);
+}
+
+.hero__sparkle--star::before,
+.hero__sparkle--star::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(255, 252, 250, 0.95);
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero__sparkle--star::before {
+  width: 2px;
+  height: 22px;
+  box-shadow: 0 0 8px 1px rgba(255, 252, 250, 0.7);
+}
+
+.hero__sparkle--star::after {
+  width: 22px;
+  height: 2px;
+  box-shadow: 0 0 8px 1px rgba(255, 252, 250, 0.7);
+}
+
+/* positions — right half of hero photo */
+.hero__sparkle:nth-child(1)  { top: 14%; left: 58%; width: 4px; height: 4px; animation-duration: 3.8s; animation-delay: 0s; }
+.hero__sparkle:nth-child(2)  { top: 22%; left: 72%; width: 6px; height: 6px; animation-duration: 4.6s; animation-delay: 0.5s; }
+.hero__sparkle:nth-child(3)  { top: 31%; left: 84%; width: 4px; height: 4px; animation-duration: 3.4s; animation-delay: 1.1s; }
+.hero__sparkle:nth-child(4)  { top: 18%; left: 91%; animation-duration: 5s; animation-delay: 0.2s; }
+.hero__sparkle:nth-child(5)  { top: 42%; left: 63%; width: 5px; height: 5px; animation-duration: 4.2s; animation-delay: 1.6s; }
+.hero__sparkle:nth-child(6)  { top: 48%; left: 78%; width: 6px; height: 6px; animation-duration: 4.8s; animation-delay: 0.9s; }
+.hero__sparkle:nth-child(7)  { top: 55%; left: 88%; animation-duration: 3.9s; animation-delay: 2.2s; }
+.hero__sparkle:nth-child(8)  { top: 64%; left: 68%; width: 4px; height: 4px; animation-duration: 5.2s; animation-delay: 0.4s; }
+.hero__sparkle:nth-child(9)  { top: 70%; left: 81%; width: 5px; height: 5px; animation-duration: 3.6s; animation-delay: 1.4s; }
+.hero__sparkle:nth-child(10) { top: 78%; left: 74%; width: 4px; height: 4px; animation-duration: 4.5s; animation-delay: 2.6s; }
+.hero__sparkle:nth-child(11) { top: 36%; left: 70%; animation-duration: 5.4s; animation-delay: 1.2s; }
+.hero__sparkle:nth-child(12) { top: 58%; left: 94%; width: 5px; height: 5px; animation-duration: 4s; animation-delay: 1.9s; }
+
+@keyframes hero-sparkle-twinkle {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: scale(0.55) translateY(0);
+  }
+  15% {
+    opacity: 0.55;
+    transform: scale(0.85) translateY(-1px);
+  }
+  38% {
+    opacity: 1;
+    transform: scale(1.15) translateY(-3px);
+  }
+  55% {
+    opacity: 0.75;
+    transform: scale(0.95) translateY(-2px);
+  }
+  78% {
+    opacity: 0.25;
+    transform: scale(0.65) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__sparkle {
+    animation: none;
+    opacity: 0.55;
+    transform: scale(0.95);
+  }
+
+  .hero__sparkle:nth-child(n + 7) {
+    display: none;
+  }
+}
+
 /* —— Content —— */
 .hero__inner {
   position: relative;
@@ -147,7 +256,7 @@
     var(--color-sage) 45%,
     #7a8c72 100%
   );
-  color: #fff;
+  color: #ffffff;
   font-family: var(--font-family-ui);
   font-size: 0.8125rem;
   font-weight: 500;
@@ -162,6 +271,13 @@
     0 5px 0 #5c6956,
     0 12px 28px rgba(61, 52, 44, 0.18);
   transition: filter 0.25s ease;
+}
+
+.hero__btn:link,
+.hero__btn:visited,
+.hero__btn:hover,
+.hero__btn:active {
+  color: #ffffff;
 }
 
 /* блеск, который перебегает */
@@ -208,10 +324,12 @@
 .hero__btn span {
   position: relative;
   z-index: 1;
+  color: #ffffff;
 }
 
 .hero__btn:hover {
   filter: brightness(0.88);
+  color: #ffffff;
 }
 
 .hero__btn:hover::after {
@@ -220,6 +338,7 @@
 
 .hero__btn:active {
   filter: brightness(0.8);
+  color: #ffffff;
 }
 
 .hero__btn:focus-visible {
@@ -400,6 +519,14 @@
     object-position: 70% center;
     transform: scale(1.02);
   }
+
+  /* sparkles further right — denser left wash */
+  .hero__sparkle:nth-child(1)  { left: 64%; }
+  .hero__sparkle:nth-child(2)  { left: 76%; }
+  .hero__sparkle:nth-child(3)  { left: 86%; }
+  .hero__sparkle:nth-child(5)  { left: 68%; }
+  .hero__sparkle:nth-child(8)  { left: 72%; }
+  .hero__sparkle:nth-child(11) { left: 74%; }
 
   /* широкий плотный засвет — контент не сливается с фото */
   .hero__overlay {
@@ -603,6 +730,22 @@
     transform: none;
     filter: brightness(0.88);
   }
+
+  /* fewer sparkles on phone, still clearly visible */
+  .hero__sparkles {
+    opacity: 0.9;
+  }
+
+  .hero__sparkle:nth-child(n + 7) {
+    display: none;
+  }
+
+  .hero__sparkle:nth-child(1)  { top: 12%; left: 62%; }
+  .hero__sparkle:nth-child(2)  { top: 20%; left: 78%; }
+  .hero__sparkle:nth-child(3)  { top: 28%; left: 88%; }
+  .hero__sparkle:nth-child(4)  { top: 16%; left: 92%; }
+  .hero__sparkle:nth-child(5)  { top: 34%; left: 70%; }
+  .hero__sparkle:nth-child(6)  { top: 24%; left: 54%; }
 
   .hero__overlay {
     background:

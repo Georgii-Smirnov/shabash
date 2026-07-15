@@ -13,6 +13,7 @@
 @import url("blocks/header.css");
 @import url("blocks/menu.css");
 @import url("blocks/hero.css");
+@import url("blocks/specialist.css");
 
 /* Далее по мере появления:
 @import url("blocks/footer.css");

@@ -5,6 +5,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   initHeaderScroll();
   initMenu();
+  initAccordions();
 });
 
 function initHeaderScroll() {
@@ -101,5 +102,38 @@ function initMenu() {
       event.preventDefault();
       first.focus();
     }
+  });
+}
+
+function initAccordions() {
+  const roots = document.querySelectorAll("[data-accordion]");
+  if (!roots.length) return;
+
+  roots.forEach((root) => {
+    const trigger = root.querySelector("[data-accordion-trigger]");
+    const panel = root.querySelector("[data-accordion-panel]");
+    const label = root.querySelector("[data-accordion-label]");
+
+    if (!trigger || !panel) return;
+
+    const openLabel = trigger.dataset.openLabel || "Свернуть";
+    const closedLabel = trigger.dataset.closedLabel || "Подробнее";
+
+    const setOpen = (open) => {
+      trigger.setAttribute("aria-expanded", open ? "true" : "false");
+      panel.hidden = !open;
+      panel.classList.toggle("is-open", open);
+
+      if (label) {
+        label.textContent = open ? openLabel : closedLabel;
+      }
+    };
+
+    setOpen(false);
+
+    trigger.addEventListener("click", () => {
+      const isOpen = trigger.getAttribute("aria-expanded") === "true";
+      setOpen(!isOpen);
+    });
   });
 }

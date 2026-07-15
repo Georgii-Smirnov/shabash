@@ -1,0 +1,494 @@
+/* ==========================================================================
+   Specialist — master block with expandable details
+   ========================================================================== */
+
+.specialist {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.specialist__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-s);
+  overflow: hidden;
+}
+
+.specialist__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 0;
+  align-items: stretch;
+}
+
+/* —— Portrait (master) —— */
+.specialist__media {
+  position: relative;
+  min-height: 100%;
+  background: var(--color-paper-soft);
+  overflow: hidden;
+}
+
+.specialist__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 28rem;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* —— Intro (right) —— */
+.specialist__intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.75rem, 4vw, 3.25rem);
+}
+
+.specialist__label {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-family-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-sage-dark);
+}
+
+.specialist__label::after {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 1px;
+  margin-top: 0.65rem;
+  background: var(--color-sage);
+  opacity: 0.7;
+}
+
+.specialist__title {
+  margin: 0 0 1.15rem;
+  font-family: var(--font-family-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 3.6vw, 3.15rem);
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.specialist__lead {
+  margin: 0 0 2rem;
+  max-width: 28rem;
+  font-family: var(--font-family-ui);
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+/* —— Toggle —— */
+.specialist__toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.15rem;
+  padding: 0.85rem 1.5rem 0.85rem 1.65rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-family-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    filter 0.25s ease;
+}
+
+.specialist__toggle:hover {
+  background: rgba(139, 155, 130, 0.1);
+  border-color: var(--color-sage);
+}
+
+.specialist__toggle:focus-visible {
+  outline: 2px solid var(--color-sage-dark);
+  outline-offset: 3px;
+}
+
+.specialist__toggle[aria-expanded="true"] {
+  background: var(--color-sage);
+  border-color: var(--color-sage);
+  color: #fff;
+}
+
+.specialist__toggle[aria-expanded="true"]:hover {
+  filter: brightness(0.92);
+  background: var(--color-sage);
+  border-color: var(--color-sage);
+  color: #fff;
+}
+
+.specialist__toggle-icon {
+  position: relative;
+  width: 0.7rem;
+  height: 0.7rem;
+  flex-shrink: 0;
+}
+
+.specialist__toggle-icon::before,
+.specialist__toggle-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform 0.3s var(--ease-out), opacity 0.2s ease;
+}
+
+.specialist__toggle-icon::before {
+  width: 100%;
+  height: 1.5px;
+  transform: translate(-50%, -50%);
+}
+
+.specialist__toggle-icon::after {
+  width: 1.5px;
+  height: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.specialist__toggle[aria-expanded="true"] .specialist__toggle-icon::after {
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleY(0);
+}
+
+/* —— Expandable panel —— */
+.specialist__panel {
+  border-top: 1px solid transparent;
+  background: var(--color-cream-soft);
+}
+
+.specialist__panel.is-open {
+  border-top-color: var(--color-border);
+}
+
+.specialist__panel-inner {
+  display: grid;
+  gap: clamp(1.75rem, 3vw, 2.5rem);
+  padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.75rem, 4vw, 3.25rem)
+    clamp(2rem, 4vw, 3rem);
+}
+
+.specialist__subtitle {
+  margin: 0 0 1rem;
+  font-family: var(--font-family-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-sage-dark);
+}
+
+.specialist__about {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+  align-items: stretch;
+}
+
+.specialist__about-text p {
+  margin: 0;
+  max-width: 36rem;
+  font-family: var(--font-family-ui);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+  opacity: 0.9;
+}
+
+/* tools — в раскрытии, рядом с текстом «О мастере» */
+.specialist__mood {
+  margin: 0;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-paper-soft);
+  box-shadow: var(--shadow-xs);
+  min-height: 12rem;
+}
+
+.specialist__mood-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 12rem;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* —— Price cards —— */
+.specialist__price-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.specialist__price-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 7.5rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-m);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-xs);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.specialist__price-card:hover {
+  border-color: rgba(139, 155, 130, 0.45);
+  box-shadow: var(--shadow-s);
+}
+
+.specialist__price-name {
+  font-family: var(--font-family-ui);
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+}
+
+.specialist__price-value {
+  font-family: var(--font-family-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-sage-dark);
+}
+
+.specialist__price-note {
+  margin: 1rem 0 0;
+  font-family: var(--font-family-ui);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+/* —— CTA row —— */
+.specialist__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  padding-top: 0.25rem;
+}
+
+.specialist__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--color-ink);
+  font-family: var(--font-family-ui);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.specialist__phone:hover {
+  color: var(--color-sage-dark);
+}
+
+.specialist__phone-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex-shrink: 0;
+  color: var(--color-sage-dark);
+}
+
+.specialist__book {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.9rem 1.85rem;
+  border: 0;
+  border-radius: 6px;
+  background: linear-gradient(
+    180deg,
+    #9aab90 0%,
+    var(--color-sage) 45%,
+    #7a8c72 100%
+  );
+  color: #ffffff;
+  font-family: var(--font-family-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1.2;
+  box-shadow:
+    inset 0 4px 0 #9aab90,
+    0 4px 0 #5c6956,
+    0 10px 24px rgba(61, 52, 44, 0.14);
+  transition: filter 0.25s ease;
+}
+
+.specialist__book:link,
+.specialist__book:visited,
+.specialist__book:hover,
+.specialist__book:active {
+  color: #ffffff;
+}
+
+.specialist__book:hover {
+  filter: brightness(0.88);
+}
+
+.specialist__book:active {
+  filter: brightness(0.8);
+}
+
+.specialist__book:focus-visible {
+  outline: 2px solid var(--color-sage-dark);
+  outline-offset: 3px;
+}
+
+/* —— Responsive —— */
+@media (max-width: 1024px) {
+  .specialist__price-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .specialist__photo {
+    min-height: 24rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .specialist__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .specialist__media {
+    max-height: 22rem;
+  }
+
+  .specialist__photo {
+    min-height: 18rem;
+    max-height: 22rem;
+  }
+
+  .specialist__about {
+    grid-template-columns: 1fr;
+  }
+
+  .specialist__mood {
+    min-height: 0;
+    max-height: 14rem;
+  }
+
+  .specialist__mood-img {
+    min-height: 12rem;
+    max-height: 14rem;
+  }
+
+  .specialist__intro {
+    padding: 1.75rem 1.5rem 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .specialist__card {
+    border-radius: var(--radius-l);
+  }
+
+  .specialist__photo {
+    min-height: 16.5rem;
+    max-height: 18.5rem;
+  }
+
+  .specialist__title {
+    font-size: clamp(1.75rem, 8vw, 2.25rem);
+  }
+
+  .specialist__lead {
+    margin-bottom: 1.5rem;
+    font-size: 0.98rem;
+  }
+
+  .specialist__toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .specialist__panel-inner {
+    padding: 1.5rem 1.25rem 1.75rem;
+    gap: 1.5rem;
+  }
+
+  .specialist__price-list {
+    grid-template-columns: 1fr;
+  }
+
+  .specialist__price-card {
+    min-height: 0;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+  }
+
+  .specialist__price-value {
+    flex-shrink: 0;
+    font-size: 1.15rem;
+  }
+
+  .specialist__cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .specialist__phone {
+    justify-content: center;
+  }
+
+  .specialist__book {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .specialist__toggle,
+  .specialist__toggle-icon::before,
+  .specialist__toggle-icon::after,
+  .specialist__price-card,
+  .specialist__book {
+    transition: none;
+  }
+}
