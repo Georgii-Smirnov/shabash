@@ -3,14 +3,32 @@
    ========================================================================== */
 
 .specialist {
+  /* внешние отступы секции — от .section (padding-block) */
+  --specialist-layout-height: 36rem;
+  /* одинаковые колонки у всех карточек → одна вертикаль стыка (уголок к уголку) */
+  --specialist-col-left: minmax(0, 1fr);
+  --specialist-col-right: minmax(0, 1fr);
+
   background-color: var(--color-paper);
   color: var(--color-ink);
+}
+
+/* список карточек мастеров (ACF repeater) */
+.specialist__list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(2rem, 4.5vw, 3.5rem);
+  width: 100%;
 }
 
 .specialist__card {
   display: flex;
   flex-direction: column;
   gap: 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
   border: 1px solid transparent;
   border-radius: 0;
   background: transparent;
@@ -28,15 +46,32 @@
   box-shadow: var(--shadow-s);
 }
 
+/* closed row: fixed height; columns identical on every card (shared center line) */
 .specialist__layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  grid-template-columns: var(--specialist-col-left) var(--specialist-col-right);
   gap: 0;
   align-items: stretch;
+  width: 100%;
+  height: var(--specialist-layout-height);
+  min-height: var(--specialist-layout-height);
+  max-height: var(--specialist-layout-height);
+}
+
+/*
+ * reverse: only reorder cells — columns stay left|right 1fr|1fr
+ * so photo-left of card N and photo-right of card N+1 share the same center axis
+ */
+.specialist__card--reverse .specialist__layout > .specialist__media {
+  order: 2;
+}
+
+.specialist__card--reverse .specialist__intro {
+  order: 1;
 }
 
 /* entrance: halves dock like a puzzle — more travel, slower ease */
-.specialist__media,
+.specialist__layout > .specialist__media,
 .specialist__intro {
   opacity: 0;
   transition:
@@ -44,7 +79,7 @@
     transform 1.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.specialist__media {
+.specialist__layout > .specialist__media {
   transform: translate3d(-5.5rem, 0, 0);
 }
 
@@ -52,7 +87,16 @@
   transform: translate3d(5.5rem, 0, 0);
 }
 
-.specialist__card.is-inview .specialist__media,
+/* reverse entrance: portrait from right, text from left */
+.specialist__card--reverse .specialist__layout > .specialist__media {
+  transform: translate3d(5.5rem, 0, 0);
+}
+
+.specialist__card--reverse .specialist__intro {
+  transform: translate3d(-5.5rem, 0, 0);
+}
+
+.specialist__card.is-inview .specialist__layout > .specialist__media,
 .specialist__card.is-inview .specialist__intro {
   opacity: 1;
   transform: translate3d(0, 0, 0);
@@ -62,32 +106,58 @@
   transition-delay: 0.22s;
 }
 
+.specialist__card--reverse.is-inview .specialist__layout > .specialist__media {
+  transition-delay: 0.22s;
+}
+
+.specialist__card--reverse.is-inview .specialist__intro {
+  transition-delay: 0s;
+}
+
 /* —— Portrait (master) —— */
 .specialist__media {
   position: relative;
-  min-height: 34rem;
-  max-height: 40rem;
+  min-height: 0;
+  max-height: none;
+  height: 100%;
   background: var(--color-paper-soft);
   overflow: hidden;
   border-radius: 0;
+}
+
+.specialist__layout > .specialist__media {
+  height: 100%;
+  min-height: 0;
+  max-height: none;
 }
 
 .specialist__photo {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 34rem;
-  max-height: 40rem;
+  min-height: 0;
+  max-height: none;
   object-fit: cover;
   object-position: center 20%;
   border-radius: 0;
 }
 
-/* —— Intro (right) —— */
+.specialist__layout > .specialist__media .specialist__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* —— Intro —— */
 .specialist__intro {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
   padding: clamp(2rem, 4vw, 3.5rem) clamp(1.75rem, 4vw, 3.25rem);
 }
 
@@ -238,10 +308,11 @@
 
 .specialist__panel-inner {
   display: grid;
-  /* те же доли, что .specialist__layout — фото стыкуются углами */
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  /* та же сетка left|right, что и layout */
+  grid-template-columns: var(--specialist-col-left) var(--specialist-col-right);
   gap: 0;
   align-items: stretch;
+  width: 100%;
   opacity: 0;
   transform: translateY(-0.75rem);
   transition:
@@ -254,7 +325,7 @@
   transform: translateY(0);
 }
 
-/* left under master photo: text / price / cta */
+/* under master photo: text / price / cta */
 .specialist__details {
   display: flex;
   flex-direction: column;
@@ -264,18 +335,34 @@
   border-right: 1px solid var(--color-border);
 }
 
-/* right photo — same column as intro, corners meet master photo */
+/* side photo under intro — corners meet master portrait */
 .specialist__media--side {
-  min-height: 34rem;
+  position: relative;
+  min-height: var(--specialist-layout-height);
   max-height: none;
   height: 100%;
   border-left: 0;
 }
 
+/* reverse panel: same columns, only order (side left under intro, details under portrait) */
+.specialist__card--reverse .specialist__media--side {
+  order: 1;
+}
+
+.specialist__card--reverse .specialist__details {
+  order: 2;
+  border-right: 0;
+  border-left: 1px solid var(--color-border);
+}
+
 .specialist__media--side .specialist__photo {
-  min-height: 34rem;
-  max-height: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
   height: 100%;
+  min-height: 0;
+  max-height: none;
+  object-fit: cover;
   object-position: center;
 }
 
@@ -314,7 +401,7 @@
 .specialist__price-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.85rem;
+  gap: 0.75rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -324,26 +411,22 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1rem;
-  min-height: 7.5rem;
-  padding: 1.25rem 1.35rem;
+  gap: 0.85rem;
+  min-height: 6.5rem;
+  padding: 1.15rem 1.25rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-m);
   background: var(--color-surface);
-  box-shadow: var(--shadow-xs);
-  transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: border-color 0.25s ease;
 }
 
 .specialist__price-card:hover {
-  border-color: rgba(139, 155, 130, 0.45);
-  box-shadow: var(--shadow-s);
+  border-color: rgba(139, 155, 130, 0.4);
 }
 
 .specialist__price-name {
   font-family: var(--font-family-ui);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 400;
   line-height: 1.4;
   letter-spacing: 0.02em;
@@ -352,9 +435,10 @@
 
 .specialist__price-value {
   font-family: var(--font-family-display);
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   font-weight: 400;
   letter-spacing: 0.02em;
+  line-height: 1.2;
   color: var(--color-sage-dark);
 }
 
@@ -367,70 +451,20 @@
   color: var(--color-text-muted);
 }
 
-/* —— CTA row —— */
+/* —— CTA —— */
 .specialist__cta {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem 1.5rem;
-  padding-top: 0.25rem;
-}
-
-.specialist__phone {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.45rem;
-  color: var(--color-ink);
-  font-family: var(--font-family-ui);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-
-.specialist__phone:hover {
-  color: var(--color-sage-dark);
-}
-
-.specialist__phone-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: 1.05rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-}
-
-.specialist__phone-icon {
-  width: 1.2rem;
-  height: 1.2rem;
-  flex-shrink: 0;
-  color: var(--color-sage-dark);
-}
-
-.specialist__phone-label {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-sage-dark);
-}
-
-.specialist__phone-label::after {
-  content: "";
-  display: block;
-  width: 2rem;
-  height: 1px;
-  margin-top: 0.55rem;
-  background: var(--color-sage);
-  opacity: 0.7;
+  width: 100%;
+  padding-top: 0.35rem;
 }
 
 .specialist__book {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 3.25rem;
-  padding: 0.9rem 1.85rem;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 1rem 1.5rem;
   border: 0;
   border-radius: 6px;
   background: linear-gradient(
@@ -441,9 +475,9 @@
   );
   color: #ffffff;
   font-family: var(--font-family-ui);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
   line-height: 1.2;
@@ -476,71 +510,67 @@
 
 /* —— Responsive —— */
 @media (max-width: 1024px) {
-  .specialist__media {
-    min-height: 32rem;
-    max-height: 36rem;
-  }
-
-  .specialist__photo {
-    min-height: 32rem;
-    max-height: 36rem;
-  }
-
-  .specialist__media--side {
-    min-height: 32rem;
-    max-height: none;
-  }
-
-  .specialist__media--side .specialist__photo {
-    min-height: 32rem;
-    max-height: none;
+  .specialist {
+    --specialist-layout-height: 34rem;
   }
 }
 
 @media (max-width: 900px) {
-  .specialist__layout {
-    grid-template-columns: 1fr;
+  .specialist {
+    --specialist-layout-height: auto;
+    --specialist-photo-height: 28rem;
+    --specialist-side-height: 22rem;
   }
 
-  .specialist__media {
-    min-height: 28rem;
-    max-height: 32rem;
+  .specialist__layout {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  /* mobile: always photo → text (ignore reverse order) */
+  .specialist__card--reverse .specialist__layout > .specialist__media,
+  .specialist__card--reverse .specialist__intro {
+    order: initial;
+  }
+
+  .specialist__layout > .specialist__media {
+    height: var(--specialist-photo-height);
+    min-height: var(--specialist-photo-height);
+    max-height: var(--specialist-photo-height);
     transform: translate3d(0, -3rem, 0);
   }
 
-  .specialist__photo {
-    min-height: 28rem;
-    max-height: 32rem;
-  }
-
   .specialist__intro {
+    height: auto;
     transform: translate3d(0, 3rem, 0);
   }
 
-  .specialist__card.is-inview .specialist__media,
+  .specialist__card.is-inview .specialist__layout > .specialist__media,
   .specialist__card.is-inview .specialist__intro {
     transform: translate3d(0, 0, 0);
   }
 
-  .specialist__panel-inner {
+  .specialist__panel-inner,
+  .specialist__card--reverse .specialist__panel-inner {
     grid-template-columns: 1fr;
   }
 
-  .specialist__details {
+  .specialist__details,
+  .specialist__card--reverse .specialist__details {
     border-right: 0;
+    border-left: 0;
   }
 
-  .specialist__media--side {
+  .specialist__media--side,
+  .specialist__card--reverse .specialist__media--side {
     order: -1;
-    min-height: 20rem;
-    max-height: 24rem;
+    height: var(--specialist-side-height);
+    min-height: var(--specialist-side-height);
+    max-height: var(--specialist-side-height);
     border-left: 0;
     border-bottom: 1px solid var(--color-border);
-  }
-
-  .specialist__media--side .specialist__photo {
-    min-height: 20rem;
-    max-height: 24rem;
   }
 
   .specialist__intro {
@@ -549,28 +579,13 @@
 }
 
 @media (max-width: 640px) {
+  .specialist {
+    --specialist-photo-height: 24rem;
+    --specialist-side-height: 16rem;
+  }
+
   .specialist__card {
     border-radius: 0;
-  }
-
-  .specialist__media {
-    min-height: 24rem;
-    max-height: 28rem;
-  }
-
-  .specialist__photo {
-    min-height: 24rem;
-    max-height: 28rem;
-  }
-
-  .specialist__media--side {
-    min-height: 16rem;
-    max-height: 18rem;
-  }
-
-  .specialist__media--side .specialist__photo {
-    min-height: 16rem;
-    max-height: 18rem;
   }
 
   .specialist__title {
@@ -594,6 +609,7 @@
 
   .specialist__price-list {
     grid-template-columns: 1fr;
+    gap: 0.55rem;
   }
 
   .specialist__price-card {
@@ -602,25 +618,12 @@
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1rem 1.1rem;
+    padding: 0.95rem 1.1rem;
   }
 
   .specialist__price-value {
     flex-shrink: 0;
     font-size: 1.15rem;
-  }
-
-  .specialist__cta {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .specialist__phone {
-    align-items: center;
-  }
-
-  .specialist__book {
-    width: 100%;
   }
 }
 
@@ -639,7 +642,7 @@
   }
 
   .specialist__panel-inner,
-  .specialist__media,
+  .specialist__layout > .specialist__media,
   .specialist__intro {
     opacity: 1;
     transform: none;

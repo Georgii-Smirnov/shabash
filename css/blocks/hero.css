@@ -725,6 +725,15 @@
     min-height: 100dvh;
   }
 
+  .hero__badge {
+    color: #ffffff;
+  }
+
+  .hero__badge::after {
+    background: #ffffff;
+    opacity: 0.75;
+  }
+
   .hero__photo {
     object-position: 78% 40%;
     transform: none;
