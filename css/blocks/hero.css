@@ -201,11 +201,12 @@
 
 .hero__title {
   margin: 0 0 1.75rem;
-  max-width: none;
-  width: 100%;
+  /* ~ line «Услуги красоты премиум-класса» — wrap without <br> */
+  max-width: 10.5em;
+  width: auto;
   font-family: var(--font-family-display);
   font-weight: 400;
-  font-size: clamp(2.6rem, 5.4vw, 5.75rem);
+  font-size: clamp(2rem, 3.7vw, 3.5rem);
   line-height: 1.12;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -223,14 +224,14 @@
 
 .hero__text p {
   margin: 0;
-  max-width: min(52rem, 100%);
+  max-width: min(36rem, 100%);
   font-family: var(--font-family-ui);
   font-weight: 400;
-  font-size: clamp(1.05rem, 1.45vw, 1.4rem);
-  line-height: 1.65;
-  letter-spacing: 0.03em;
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
   color: var(--color-ink);
-  opacity: 0.92;
+  opacity: 0.9;
 }
 
 /* —— CTA row —— */
@@ -498,12 +499,12 @@
   }
 
   .hero__title {
-    font-size: clamp(2.4rem, 4.6vw, 4.5rem);
+    font-size: clamp(1.9rem, 3.7vw, 3.5rem);
   }
 
   .hero__text p {
-    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
-    max-width: none;
+    font-size: clamp(0.9rem, 1.15vw, 1.05rem);
+    max-width: min(34rem, 100%);
   }
 }
 
@@ -565,11 +566,11 @@
   }
 
   .hero__title {
-    font-size: clamp(3.75rem, 7vw, 5.5rem);
+    font-size: clamp(2.95rem, 5.5vw, 4.3rem);
     line-height: 1.08;
     letter-spacing: 0.03em;
     margin-bottom: 1.65rem;
-    max-width: none;
+    max-width: 10.5em;
   }
 
   .hero__text {
@@ -578,9 +579,9 @@
   }
 
   .hero__text p {
-    max-width: none;
-    font-size: clamp(1.35rem, 2.3vw, 1.65rem);
-    line-height: 1.65;
+    max-width: min(34rem, 92%);
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    line-height: 1.6;
   }
 
   .hero__buttons {
@@ -627,14 +628,14 @@
   }
 
   .hero__title {
-    font-size: 5.25rem;
+    font-size: 4.1rem;
     margin-bottom: 1.75rem;
-    max-width: none;
+    max-width: 10.5em;
   }
 
   .hero__text p {
-    font-size: 1.6rem;
-    max-width: none;
+    font-size: 1.05rem;
+    max-width: min(34rem, 90%);
   }
 
   .hero__btn {
@@ -660,11 +661,12 @@
   }
 
   .hero__title {
-    font-size: clamp(3.5rem, 7.5vw, 4.75rem);
+    font-size: clamp(2.75rem, 5.8vw, 3.7rem);
   }
 
   .hero__text p {
-    font-size: 1.4rem;
+    font-size: 1rem;
+    max-width: min(32rem, 92%);
   }
 
   .hero__btn {
@@ -714,7 +716,7 @@
   }
 
   .hero__title {
-    font-size: clamp(2.25rem, 5.8vw, 3.2rem);
+    font-size: clamp(1.8rem, 4.5vw, 2.5rem);
   }
 }
 
@@ -784,15 +786,12 @@
   }
 
   .hero__title {
-    font-size: clamp(2.35rem, 10.5vw, 3.1rem);
+    font-size: clamp(1.85rem, 8.2vw, 2.45rem);
     line-height: 1.14;
     letter-spacing: 0.02em;
     margin-bottom: 1rem;
+    max-width: 11em;
     text-shadow: 0 1px 12px rgba(250, 247, 241, 0.9);
-  }
-
-  .hero__title br {
-    display: none;
   }
 
   .hero__text {
@@ -896,7 +895,7 @@
 /* Очень узкие экраны */
 @media (max-width: 380px) {
   .hero__title {
-    font-size: 2.15rem;
+    font-size: 1.7rem;
     letter-spacing: 0.015em;
   }
 

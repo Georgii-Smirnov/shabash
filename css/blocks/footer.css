@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer {
+  background: transparent;
+  border-top: 0;
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding: clamp(1.35rem, 3vw, 1.85rem) var(--gutter);
+  text-align: center;
+}
+
+.footer__copy {
+  margin: 0;
+  font-family: var(--font-family-ui);
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  color: var(--color-sage-dark);
+}
+
+.footer__copy strong {
+  font-family: var(--font-family-display);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--color-sage-dark);
+}
