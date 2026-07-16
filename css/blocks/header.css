@@ -138,8 +138,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  min-width: 0;
-  max-width: 14rem;
+  max-width: none;
   font-family: var(--font-family-ui);
   font-size: 0.8125rem;
   font-weight: 400;
@@ -147,14 +146,12 @@
   line-height: 1.25;
   color: var(--color-ink);
   text-decoration: none;
+  white-space: nowrap;
   opacity: 0.9;
   transition: color 0.35s ease, opacity 0.35s ease;
 }
 
 .header__address span {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -278,7 +275,6 @@
   }
 
   .header__address span {
-    max-width: 10rem;
     font-size: 0.78rem;
   }
 
@@ -322,7 +318,7 @@
   }
 
   .header__address {
-    max-width: 11rem;
+    max-width: none;
   }
 
   .header__address span {
