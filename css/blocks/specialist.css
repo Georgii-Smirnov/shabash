@@ -33,11 +33,16 @@
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+  /* visible when open so sticky side photo can pin */
   overflow: hidden;
   transition:
     background-color 2.2s ease 0.35s,
     border-color 2.2s ease 0.35s,
     box-shadow 2.2s ease 0.4s;
+}
+
+.specialist__card:has(.specialist__panel.is-open) {
+  overflow: visible;
 }
 
 .specialist__card.is-inview {
@@ -316,12 +321,15 @@
   overflow: hidden;
 }
 
+.specialist__panel.is-open .specialist__panel-clip {
+  overflow: visible;
+}
+
 .specialist__panel-inner {
   display: grid;
-  /* та же сетка left|right, что и layout */
-  grid-template-columns: var(--specialist-col-left) var(--specialist-col-right);
+  grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
   gap: 0;
-  align-items: stretch;
+  align-items: start;
   width: 100%;
   opacity: 0;
   transform: translateY(-0.75rem);
@@ -343,37 +351,79 @@
   border-right: 0;
 }
 
-.specialist__panel-inner--balanced .specialist__media--side {
-  align-self: stretch;
-  height: auto;
-  min-height: 0;
-  max-height: none;
-  aspect-ratio: auto;
-}
-
-/* under master photo: text / price / cta */
+/* text / price / cta */
 .specialist__details {
   display: flex;
   flex-direction: column;
   gap: clamp(1.5rem, 3vw, 2.25rem);
+  min-width: 0;
   padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.5rem, 3.5vw, 2.75rem)
     clamp(2rem, 4vw, 3rem);
   border-right: 1px solid var(--color-border);
 }
 
-/* side photo under intro — natural proportions, no stretch */
+/*
+ * Side photo — independent gallery plate:
+ * fixed ratio, sticky, not stretched by copy length.
+ */
 .specialist__media--side {
-  position: relative;
+  --side-inset: clamp(1.35rem, 2.8vw, 2rem);
+
+  position: sticky;
+  top: calc(var(--header-height) + 1.5rem);
   align-self: start;
-  aspect-ratio: 3 / 4;
-  max-height: 42rem;
+  width: calc(100% - var(--side-inset) * 2);
+  max-width: 22rem;
+  margin: var(--side-inset) auto;
+  aspect-ratio: 4 / 5;
   height: auto;
+  max-height: min(32rem, 64vh);
   min-height: 0;
-  border-left: 0;
+  border: 1px solid rgba(28, 36, 32, 0.1);
+  background: var(--color-surface);
+  box-shadow:
+    0 1px 2px rgba(28, 36, 32, 0.04),
+    0 16px 40px rgba(28, 36, 32, 0.08);
   overflow: hidden;
 }
 
-/* reverse panel: same columns, only order (side left under intro, details under portrait) */
+.specialist__media--side::before {
+  content: "";
+  position: absolute;
+  inset: 0.55rem;
+  z-index: 1;
+  border: 1px solid rgba(255, 252, 250, 0.35);
+  pointer-events: none;
+}
+
+.specialist__media--side::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(28, 36, 32, 0.06) 0%,
+      transparent 28%,
+      transparent 62%,
+      rgba(28, 36, 32, 0.18) 100%
+    );
+}
+
+.specialist__panel-inner--balanced .specialist__media--side {
+  align-self: start;
+  height: auto;
+  max-height: min(32rem, 64vh);
+  aspect-ratio: 4 / 5;
+}
+
+/* reverse: photo left, details right */
+.specialist__card--reverse .specialist__panel-inner {
+  grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.2fr);
+}
+
 .specialist__card--reverse .specialist__media--side {
   order: 1;
 }
@@ -387,12 +437,20 @@
 .specialist__media--side .specialist__photo {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   min-height: 0;
   max-height: none;
   object-fit: cover;
-  object-position: center;
+  object-position: center 20%;
+  transition: transform 0.7s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .specialist__media--side:hover .specialist__photo {
+    transform: scale(1.03);
+  }
 }
 
 .specialist__subtitle {
@@ -552,9 +610,9 @@
 .specialist__price-card {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 0.85rem 1rem;
+  gap: 0.75rem 1rem;
   min-height: 3.35rem;
   height: 100%;
   box-sizing: border-box;
@@ -578,17 +636,22 @@
   line-height: 1.35;
   letter-spacing: 0.02em;
   color: var(--color-ink);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .specialist__price-value {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  max-width: 48%;
   font-family: var(--font-family-display);
   font-size: 1.05rem;
   font-weight: 400;
   letter-spacing: 0.02em;
-  line-height: 1.2;
+  line-height: 1.25;
+  text-align: right;
   color: var(--color-sage-dark);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .specialist__price-note {
@@ -744,13 +807,26 @@
   }
 
   .specialist__media--side,
-  .specialist__card--reverse .specialist__media--side {
+  .specialist__card--reverse .specialist__media--side,
+  .specialist__panel-inner--balanced .specialist__media--side {
+    position: relative;
+    top: auto;
     order: -1;
+    width: 100%;
+    max-width: none;
+    margin: 0;
     height: var(--specialist-side-height);
     min-height: var(--specialist-side-height);
     max-height: var(--specialist-side-height);
-    border-left: 0;
+    aspect-ratio: auto;
+    border: 0;
     border-bottom: 1px solid var(--color-border);
+    box-shadow: none;
+  }
+
+  .specialist__media--side::before,
+  .specialist__media--side::after {
+    display: none;
   }
 
   .specialist__intro {
@@ -787,17 +863,33 @@
     gap: 1.5rem;
   }
 
-  .specialist__price-list {
+  .specialist__prices[data-price-tabs] .specialist__price-list,
+  .specialist__prices:not([data-price-tabs]) .specialist__price-list {
     grid-template-columns: 1fr;
     gap: 0.45rem;
   }
 
   .specialist__price-card {
-    padding: 0.65rem 0.9rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.3rem 0.75rem;
+    min-height: 0;
+    padding: 0.7rem 0.85rem;
+  }
+
+  .specialist__price-name {
+    flex: 1 1 8rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
   }
 
   .specialist__price-value {
-    font-size: 0.98rem;
+    flex: 0 1 auto;
+    max-width: none;
+    margin-left: auto;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    white-space: nowrap;
   }
 
   .specialist__cta--split {
@@ -812,6 +904,26 @@
   .specialist__book-text {
     white-space: normal;
     text-align: left;
+  }
+}
+
+/* iPhone SE / narrow: stack name over price */
+@media (max-width: 400px) {
+  .specialist__price-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+
+  .specialist__price-name {
+    flex: 0 0 auto;
+  }
+
+  .specialist__price-value {
+    margin-left: 0;
+    text-align: left;
+    white-space: normal;
+    font-size: 0.95rem;
   }
 }
 
