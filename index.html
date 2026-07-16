@@ -9,7 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/css/glightbox.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/js/glightbox.min.js" defer></script>
   <script src="js/main.js" defer></script>
 </head>
@@ -664,11 +666,10 @@
 
     <!--
       ACF:
-      masters[] (repeater)
-        photo, name, role
-        certificates[] (gallery/repeater) → image, alt
-      WP: foreach masters → pack; foreach certificates → [data-docs-slide]
-      JS: desktop 3 visible, mobile 1 + swipe; arrows + dots.
+      masters[] → photo, name, role
+        certificates[] → image, alt
+      WP: pack + swiper-slide per certificate
+      Swiper: 1 / 2 / 3 slides, arrows + bullets, GLightbox on click
     -->
     <section class="docs section" id="docs" aria-labelledby="docs-title" data-docs>
       <div class="container">
@@ -676,8 +677,8 @@
           <p class="docs__label">Документы мастеров</p>
           <h2 class="docs__title" id="docs-title">Сертификаты и&nbsp;квалификация</h2>
           <p class="docs__lead">
-            Выберите мастера и&nbsp;листайте дипломы, сертификаты
-            и&nbsp;курсы — по&nbsp;три документа на&nbsp;слайде.
+            Выберите мастера и&nbsp;посмотрите дипломы и&nbsp;сертификаты.
+            Нажмите на&nbsp;фото, чтобы открыть крупнее.
           </p>
         </header>
 
@@ -737,59 +738,45 @@
             role="tabpanel"
             aria-labelledby="docs-person-1"
             data-docs-pack
-            data-docs-slider
           >
-            <div class="docs__slider">
-              <button class="docs__nav docs__nav--prev" type="button" data-docs-prev aria-label="Предыдущий слайд">
-                <span class="docs__nav-icon" aria-hidden="true"></span>
-              </button>
+            <div class="docs__slider" data-docs-slider>
+              <div class="docs__stage">
+                <button class="docs__nav docs__nav--prev" type="button" aria-label="Предыдущий слайд">
+                  <span class="docs__nav-icon" aria-hidden="true"></span>
+                </button>
 
-              <div class="docs__viewport" data-docs-viewport>
-                <div class="docs__track" data-docs-track>
-                  <div class="docs__slide is-active" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/docs/yulia-01.webp" data-gallery="docs-1">
-                          <img class="docs__cert-img" src="img/docs/yulia-01.webp" alt="Сертификат L’Oréal Professionnel — Юлия" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/docs/yulia-02.webp" data-gallery="docs-1">
-                          <img class="docs__cert-img" src="img/docs/yulia-02.webp" alt="Сертификат L’Oréal Professionnel — колористика" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/docs/yulia-03.webp" data-gallery="docs-1">
-                          <img class="docs__cert-img" src="img/docs/yulia-03.webp" alt="Сертификат L’Oréal Professionnel — курс" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/docs/yulia-04.webp" data-gallery="docs-1">
-                          <img class="docs__cert-img" src="img/docs/yulia-04.webp" alt="Сертификат L’Oréal Professionnel Color Specialist" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
+                <div class="docs__swiper swiper" data-docs-swiper>
+                  <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/docs/yulia-01.webp" data-gallery="docs-1">
+                    <img class="docs__cert-img" src="img/docs/yulia-01.webp" alt="Сертификат L’Oréal Professionnel — Юлия" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/docs/yulia-02.webp" data-gallery="docs-1">
+                    <img class="docs__cert-img" src="img/docs/yulia-02.webp" alt="Сертификат L’Oréal Professionnel — колористика" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/docs/yulia-03.webp" data-gallery="docs-1">
+                    <img class="docs__cert-img" src="img/docs/yulia-03.webp" alt="Сертификат L’Oréal Professionnel — курс" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/docs/yulia-04.webp" data-gallery="docs-1">
+                    <img class="docs__cert-img" src="img/docs/yulia-04.webp" alt="Сертификат L’Oréal Professionnel Color Specialist" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
                 </div>
               </div>
+                </div>
 
-              <button class="docs__nav docs__nav--next" type="button" data-docs-next aria-label="Следующий слайд">
-                <span class="docs__nav-icon" aria-hidden="true"></span>
-              </button>
+                <button class="docs__nav docs__nav--next" type="button" aria-label="Следующий слайд">
+                  <span class="docs__nav-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+
+              <div class="docs__pagination"></div>
             </div>
-            <div class="docs__dots" data-docs-dots aria-label="Слайды"></div>
           </div>
 
           <!-- Master 2: Руслана -->
@@ -800,77 +787,55 @@
             aria-labelledby="docs-person-2"
             hidden
             data-docs-pack
-            data-docs-slider
           >
-            <div class="docs__slider">
-              <button class="docs__nav docs__nav--prev" type="button" data-docs-prev aria-label="Предыдущий слайд">
-                <span class="docs__nav-icon" aria-hidden="true"></span>
-              </button>
+            <div class="docs__slider" data-docs-slider>
+              <div class="docs__stage">
+                <button class="docs__nav docs__nav--prev" type="button" aria-label="Предыдущий слайд">
+                  <span class="docs__nav-icon" aria-hidden="true"></span>
+                </button>
 
-              <div class="docs__viewport" data-docs-viewport>
-                <div class="docs__track" data-docs-track>
-                  <div class="docs__slide is-active" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/nails.webp" data-gallery="docs-2">
-                          <img class="docs__cert-img" src="img/nails.webp" alt="Диплом мастера ногтевого сервиса" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/textures.webp" data-gallery="docs-2">
-                          <img class="docs__cert-img" src="img/textures.webp" alt="Сертификат аппаратного маникюра" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/about.jpg" data-gallery="docs-2">
-                          <img class="docs__cert-img" src="img/about.jpg" alt="Курс гель и дизайн" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/hair-tools.webp" data-gallery="docs-2">
-                          <img class="docs__cert-img" src="img/hair-tools.webp" alt="Курс педикюра" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/candles-modern.webp" data-gallery="docs-2">
-                          <img class="docs__cert-img" src="img/candles-modern.webp" alt="Сертификат по укреплению" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/mood-wheat.webp" data-gallery="docs-2">
-                          <img class="docs__cert-img" src="img/mood-wheat.webp" alt="Мастер-класс по дизайну" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
+                <div class="docs__swiper swiper" data-docs-swiper>
+                  <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/nails.webp" data-gallery="docs-2">
+                    <img class="docs__cert-img" src="img/nails.webp" alt="Диплом мастера ногтевого сервиса" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/textures.webp" data-gallery="docs-2">
+                    <img class="docs__cert-img" src="img/textures.webp" alt="Сертификат аппаратного маникюра" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/about.jpg" data-gallery="docs-2">
+                    <img class="docs__cert-img" src="img/about.jpg" alt="Курс гель и дизайн" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/hair-tools.webp" data-gallery="docs-2">
+                    <img class="docs__cert-img" src="img/hair-tools.webp" alt="Курс педикюра" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/candles-modern.webp" data-gallery="docs-2">
+                    <img class="docs__cert-img" src="img/candles-modern.webp" alt="Сертификат по укреплению" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/mood-wheat.webp" data-gallery="docs-2">
+                    <img class="docs__cert-img" src="img/mood-wheat.webp" alt="Мастер-класс по дизайну" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
                 </div>
               </div>
+                </div>
 
-              <button class="docs__nav docs__nav--next" type="button" data-docs-next aria-label="Следующий слайд">
-                <span class="docs__nav-icon" aria-hidden="true"></span>
-              </button>
+                <button class="docs__nav docs__nav--next" type="button" aria-label="Следующий слайд">
+                  <span class="docs__nav-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+
+              <div class="docs__pagination"></div>
             </div>
-            <div class="docs__dots" data-docs-dots aria-label="Слайды"></div>
           </div>
 
           <!-- Master 3: Анна -->
@@ -881,77 +846,55 @@
             aria-labelledby="docs-person-3"
             hidden
             data-docs-pack
-            data-docs-slider
           >
-            <div class="docs__slider">
-              <button class="docs__nav docs__nav--prev" type="button" data-docs-prev aria-label="Предыдущий слайд">
-                <span class="docs__nav-icon" aria-hidden="true"></span>
-              </button>
+            <div class="docs__slider" data-docs-slider>
+              <div class="docs__stage">
+                <button class="docs__nav docs__nav--prev" type="button" aria-label="Предыдущий слайд">
+                  <span class="docs__nav-icon" aria-hidden="true"></span>
+                </button>
 
-              <div class="docs__viewport" data-docs-viewport>
-                <div class="docs__track" data-docs-track>
-                  <div class="docs__slide is-active" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/spa.webp" data-gallery="docs-3">
-                          <img class="docs__cert-img" src="img/spa.webp" alt="Диплом косметолога-эстетиста" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/candles-sage.webp" data-gallery="docs-3">
-                          <img class="docs__cert-img" src="img/candles-sage.webp" alt="Сертификат эстетической косметологии" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/candles-modern.webp" data-gallery="docs-3">
-                          <img class="docs__cert-img" src="img/candles-modern.webp" alt="Курс пилингов и уходов" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/about.jpg" data-gallery="docs-3">
-                          <img class="docs__cert-img" src="img/about.jpg" alt="Сертификат по уходу за кожей" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/textures.webp" data-gallery="docs-3">
-                          <img class="docs__cert-img" src="img/textures.webp" alt="Курс аппаратной косметологии" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="docs__slide" data-docs-slide>
-                    <figure class="docs__cert">
-                      <div class="docs__cert-frame">
-                        <a class="docs__cert-link" href="img/mood-wheat.webp" data-gallery="docs-3">
-                          <img class="docs__cert-img" src="img/mood-wheat.webp" alt="Мастер-класс по массажу лица" width="480" height="640" loading="lazy" decoding="async">
-                        </a>
-                      </div>
-                    </figure>
-                  </div>
+                <div class="docs__swiper swiper" data-docs-swiper>
+                  <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/spa.webp" data-gallery="docs-3">
+                    <img class="docs__cert-img" src="img/spa.webp" alt="Диплом косметолога-эстетиста" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/candles-sage.webp" data-gallery="docs-3">
+                    <img class="docs__cert-img" src="img/candles-sage.webp" alt="Сертификат эстетической косметологии" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/candles-modern.webp" data-gallery="docs-3">
+                    <img class="docs__cert-img" src="img/candles-modern.webp" alt="Курс пилингов и уходов" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/about.jpg" data-gallery="docs-3">
+                    <img class="docs__cert-img" src="img/about.jpg" alt="Сертификат по уходу за кожей" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/textures.webp" data-gallery="docs-3">
+                    <img class="docs__cert-img" src="img/textures.webp" alt="Курс аппаратной косметологии" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
+                </div>
+                <div class="swiper-slide">
+                  <a class="docs__cert" href="img/mood-wheat.webp" data-gallery="docs-3">
+                    <img class="docs__cert-img" src="img/mood-wheat.webp" alt="Мастер-класс по массажу лица" width="480" height="640" loading="lazy" decoding="async">
+                  </a>
                 </div>
               </div>
+                </div>
 
-              <button class="docs__nav docs__nav--next" type="button" data-docs-next aria-label="Следующий слайд">
-                <span class="docs__nav-icon" aria-hidden="true"></span>
-              </button>
+                <button class="docs__nav docs__nav--next" type="button" aria-label="Следующий слайд">
+                  <span class="docs__nav-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+
+              <div class="docs__pagination"></div>
             </div>
-            <div class="docs__dots" data-docs-dots aria-label="Слайды"></div>
           </div>
         </div>
       </div>
