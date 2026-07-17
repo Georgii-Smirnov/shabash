@@ -104,7 +104,7 @@
   width: 3rem;
   height: 3rem;
   object-fit: cover;
-  object-position: center 20%;
+  object-position: center 48%;
   border-radius: 50%;
   background: var(--color-paper-soft);
 }

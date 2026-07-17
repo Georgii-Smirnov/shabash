@@ -175,15 +175,26 @@
           <article class="specialist__card" data-accordion>
             <div class="specialist__layout">
               <div class="specialist__media">
-                <img
-                  class="specialist__photo"
-                  src="img/master-colorist.jpg"
-                  alt="Парикмахер-колорист Юлия — мастер салона Шабаш"
-                  width="900"
-                  height="1200"
-                  loading="lazy"
-                  decoding="async"
-                >
+                <div class="specialist__swiper swiper" data-specialist-swiper>
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <img class="specialist__photo" src="img/julia/Julia.webp" alt="Парикмахер-колорист Юлия — мастер салона Шабаш" width="900" height="1200" decoding="async">
+                    </div>
+                    <div class="swiper-slide">
+                      <img class="specialist__photo" src="img/julia/julia-1.webp" alt="Юлия Димитриченко — работы" width="900" height="1200" loading="lazy" decoding="async">
+                    </div>
+                    <div class="swiper-slide">
+                      <img class="specialist__photo" src="img/julia/julia-2.webp" alt="Юлия Димитриченко — работы" width="900" height="1200" loading="lazy" decoding="async">
+                    </div>
+                  </div>
+                  <div class="specialist__swiper-pagination swiper-pagination" aria-hidden="true"></div>
+                  <button class="specialist__swiper-nav specialist__swiper-nav--prev" type="button" aria-label="Предыдущее фото">
+                    <span class="specialist__swiper-nav-icon" aria-hidden="true"></span>
+                  </button>
+                  <button class="specialist__swiper-nav specialist__swiper-nav--next" type="button" aria-label="Следующее фото">
+                    <span class="specialist__swiper-nav-icon" aria-hidden="true"></span>
+                  </button>
+                </div>
               </div>
 
               <div class="specialist__intro">
@@ -220,24 +231,39 @@
                 <div class="specialist__panel-inner specialist__panel-inner--balanced">
                   <div class="specialist__details">
                     <div class="specialist__about">
-                      <h3 class="specialist__subtitle">О мастере</h3>
-                      <p>
-                        <strong>Юлия Димитриченко</strong><br>
-                        Колорист‑парикмахер
-                      </p>
-                      <p>
-                        Образование&nbsp;— модельер‑художник помогает видеть окрашивание
-                        как полноценную композицию: баланс оттенков, переходы, акценты.
-                        Работаю с&nbsp;2011&nbsp;года&nbsp;— за&nbsp;это время научилась
-                        слышать клиента и&nbsp;превращать даже смелые идеи
-                        в&nbsp;гармоничный образ.
-                      </p>
-                      <ul class="specialist__services">
-                        <li>сложные, яркие и&nbsp;коммерческие окрашивания;</li>
-                        <li>стрижки: от&nbsp;длинных волос до&nbsp;каре и&nbsp;пикси;</li>
-                        <li>подбор оттенка и&nbsp;формы стрижки с&nbsp;учётом трендов и&nbsp;вашей индивидуальности.</li>
-                      </ul>
-                      <p>Доверьте мне свой образ&nbsp;— создадим его вместе.</p>
+                      <div class="specialist__about-main">
+                        <div class="specialist__media specialist__media--side">
+                          <img
+                            class="specialist__photo"
+                            src="img/hair-tools.webp"
+                            alt="Профессиональные инструменты и уход"
+                            width="900"
+                            height="1200"
+                            loading="lazy"
+                            decoding="async"
+                          >
+                        </div>
+                        <div class="specialist__about-copy">
+                          <h3 class="specialist__subtitle">О мастере</h3>
+                          <p>
+                            <strong>Юлия Димитриченко</strong><br>
+                            Колорист‑парикмахер
+                          </p>
+                          <p>
+                            Образование&nbsp;— модельер‑художник помогает видеть окрашивание
+                            как полноценную композицию: баланс оттенков, переходы, акценты.
+                            Работаю с&nbsp;2011&nbsp;года&nbsp;— за&nbsp;это время научилась
+                            слышать клиента и&nbsp;превращать даже смелые идеи
+                            в&nbsp;гармоничный образ.
+                          </p>
+                          <ul class="specialist__services">
+                            <li>сложные, яркие и&nbsp;коммерческие окрашивания;</li>
+                            <li>стрижки: от&nbsp;длинных волос до&nbsp;каре и&nbsp;пикси;</li>
+                            <li>подбор оттенка и&nbsp;формы стрижки с&nbsp;учётом трендов и&nbsp;вашей индивидуальности.</li>
+                          </ul>
+                          <p>Доверьте мне свой образ&nbsp;— создадим его вместе.</p>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="specialist__prices" data-price-tabs>
@@ -254,127 +280,127 @@
                       <div class="specialist__price-panels">
                         <ul class="specialist__price-list is-active" role="tabpanel" id="price-panel-1-1" aria-labelledby="price-tab-1-1" data-price-panel>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">корни (до&nbsp;3&nbsp;см)</span>
+                            <span class="specialist__price-name">Корни (до&nbsp;3&nbsp;см)</span>
                             <span class="specialist__price-value">4&nbsp;300&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">короткие</span>
+                            <span class="specialist__price-name">Короткие</span>
                             <span class="specialist__price-value">5&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;плеч</span>
+                            <span class="specialist__price-name">До&nbsp;плеч</span>
                             <span class="specialist__price-value">6&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;лопаток</span>
+                            <span class="specialist__price-name">До&nbsp;лопаток</span>
                             <span class="specialist__price-value">7&nbsp;500&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;талии</span>
+                            <span class="specialist__price-name">До&nbsp;талии</span>
                             <span class="specialist__price-value">8&nbsp;500&nbsp;₽</span>
                           </li>
                         </ul>
                         <ul class="specialist__price-list" role="tabpanel" id="price-panel-1-2" aria-labelledby="price-tab-1-2" data-price-panel>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">корни</span>
+                            <span class="specialist__price-name">Корни</span>
                             <span class="specialist__price-value">11&nbsp;000–13&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;плеч</span>
+                            <span class="specialist__price-name">До&nbsp;плеч</span>
                             <span class="specialist__price-value">14&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;лопаток</span>
+                            <span class="specialist__price-name">До&nbsp;лопаток</span>
                             <span class="specialist__price-value">15&nbsp;500&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;талии</span>
+                            <span class="specialist__price-name">До&nbsp;талии</span>
                             <span class="specialist__price-value">16&nbsp;500&nbsp;₽</span>
                           </li>
                         </ul>
                         <ul class="specialist__price-list" role="tabpanel" id="price-panel-1-3" aria-labelledby="price-tab-1-3" data-price-panel>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">корни (до&nbsp;1,5&nbsp;см)</span>
+                            <span class="specialist__price-name">Корни (до&nbsp;1,5&nbsp;см)</span>
                             <span class="specialist__price-value">9&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">короткие</span>
+                            <span class="specialist__price-name">Короткие</span>
                             <span class="specialist__price-value">10&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;плеч</span>
+                            <span class="specialist__price-name">До&nbsp;плеч</span>
                             <span class="specialist__price-value">13&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;лопаток</span>
+                            <span class="specialist__price-name">До&nbsp;лопаток</span>
                             <span class="specialist__price-value">15&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;талии</span>
+                            <span class="specialist__price-name">До&nbsp;талии</span>
                             <span class="specialist__price-value">16&nbsp;000&nbsp;₽</span>
                           </li>
                         </ul>
                         <ul class="specialist__price-list" role="tabpanel" id="price-panel-1-4" aria-labelledby="price-tab-1-4" data-price-panel>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">корни</span>
+                            <span class="specialist__price-name">Корни</span>
                             <span class="specialist__price-value">13&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;плеч</span>
+                            <span class="specialist__price-name">До&nbsp;плеч</span>
                             <span class="specialist__price-value">14&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;лопаток</span>
+                            <span class="specialist__price-name">До&nbsp;лопаток</span>
                             <span class="specialist__price-value">16&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">талия</span>
+                            <span class="specialist__price-name">Талия</span>
                             <span class="specialist__price-value">18&nbsp;000&nbsp;₽</span>
                           </li>
                         </ul>
                         <ul class="specialist__price-list" role="tabpanel" id="price-panel-1-5" aria-labelledby="price-tab-1-5" data-price-panel>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">короткие</span>
+                            <span class="specialist__price-name">Короткие</span>
                             <span class="specialist__price-value">4&nbsp;500&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;плеч</span>
+                            <span class="specialist__price-name">До&nbsp;плеч</span>
                             <span class="specialist__price-value">5&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;лопаток</span>
+                            <span class="specialist__price-name">До&nbsp;лопаток</span>
                             <span class="specialist__price-value">6&nbsp;500&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;талии</span>
+                            <span class="specialist__price-name">До&nbsp;талии</span>
                             <span class="specialist__price-value">7&nbsp;500&nbsp;₽</span>
                           </li>
                         </ul>
                         <ul class="specialist__price-list" role="tabpanel" id="price-panel-1-6" aria-labelledby="price-tab-1-6" data-price-panel>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">пикси / короткая</span>
+                            <span class="specialist__price-name">Пикси / короткая</span>
                             <span class="specialist__price-value">4&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">каре / боб</span>
+                            <span class="specialist__price-name">Каре / боб</span>
                             <span class="specialist__price-value">2&nbsp;500&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">длинные волосы</span>
+                            <span class="specialist__price-name">Длинные волосы</span>
                             <span class="specialist__price-value">2&nbsp;800&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">ровный срез</span>
+                            <span class="specialist__price-name">Ровный срез</span>
                             <span class="specialist__price-value">1&nbsp;800&nbsp;₽</span>
                           </li>
                         </ul>
                         <ul class="specialist__price-list" role="tabpanel" id="price-panel-1-7" aria-labelledby="price-tab-1-7" data-price-panel>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">до&nbsp;плеч</span>
+                            <span class="specialist__price-name">До&nbsp;плеч</span>
                             <span class="specialist__price-value">5&nbsp;000&nbsp;₽</span>
                           </li>
                           <li class="specialist__price-card">
-                            <span class="specialist__price-name">ниже плеч</span>
+                            <span class="specialist__price-name">Ниже плеч</span>
                             <span class="specialist__price-value">5&nbsp;500–7&nbsp;000&nbsp;₽</span>
                           </li>
                         </ul>
@@ -401,18 +427,6 @@
                       </a>
                     </div>
                   </div>
-
-                  <div class="specialist__media specialist__media--side">
-                    <img
-                      class="specialist__photo"
-                      src="img/hair-tools.webp"
-                      alt="Профессиональные инструменты и уход"
-                      width="900"
-                      height="1200"
-                      loading="lazy"
-                      decoding="async"
-                    >
-                  </div>
                 </div>
               </div>
             </div>
@@ -421,15 +435,20 @@
           <article class="specialist__card specialist__card--reverse" data-accordion>
             <div class="specialist__layout">
               <div class="specialist__media">
-                <img
-                  class="specialist__photo"
-                  src="img/master-nail.jpg"
-                  alt="Мастер ногтевого сервиса Руслана — салон Шабаш"
-                  width="900"
-                  height="1200"
-                  loading="lazy"
-                  decoding="async"
-                >
+                <div class="specialist__swiper swiper" data-specialist-swiper>
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <img class="specialist__photo" src="img/master-nail.jpg" alt="Мастер ногтевого сервиса Руслана — салон Шабаш" width="900" height="1200" decoding="async">
+                    </div>
+                  </div>
+                  <div class="specialist__swiper-pagination swiper-pagination" aria-hidden="true"></div>
+                  <button class="specialist__swiper-nav specialist__swiper-nav--prev" type="button" aria-label="Предыдущее фото">
+                    <span class="specialist__swiper-nav-icon" aria-hidden="true"></span>
+                  </button>
+                  <button class="specialist__swiper-nav specialist__swiper-nav--next" type="button" aria-label="Следующее фото">
+                    <span class="specialist__swiper-nav-icon" aria-hidden="true"></span>
+                  </button>
+                </div>
               </div>
 
               <div class="specialist__intro">
@@ -465,13 +484,28 @@
                 <div class="specialist__panel-inner">
                   <div class="specialist__details">
                     <div class="specialist__about">
-                      <h3 class="specialist__subtitle">О мастере</h3>
-                      <p>
-                        Делаю чистый аппаратный и&nbsp;комбинированный маникюр, укрепление
-                        и&nbsp;покрытие. Подбираю форму и&nbsp;оттенок под образ, работаю
-                        стерильными инструментами. Перед процедурой — короткая консультация
-                        по&nbsp;состоянию ногтевой пластины.
-                      </p>
+                      <div class="specialist__about-main">
+                        <div class="specialist__media specialist__media--side">
+                          <img
+                            class="specialist__photo"
+                            src="img/nails.webp"
+                            alt="Ногтевой сервис и уход"
+                            width="900"
+                            height="1200"
+                            loading="lazy"
+                            decoding="async"
+                          >
+                        </div>
+                        <div class="specialist__about-copy">
+                          <h3 class="specialist__subtitle">О мастере</h3>
+                          <p>
+                            Делаю чистый аппаратный и&nbsp;комбинированный маникюр, укрепление
+                            и&nbsp;покрытие. Подбираю форму и&nbsp;оттенок под образ, работаю
+                            стерильными инструментами. Перед процедурой — короткая консультация
+                            по&nbsp;состоянию ногтевой пластины.
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="specialist__prices">
@@ -525,18 +559,6 @@
                       </a>
                     </div>
                   </div>
-
-                  <div class="specialist__media specialist__media--side">
-                    <img
-                      class="specialist__photo"
-                      src="img/nails.webp"
-                      alt="Ногтевой сервис и уход"
-                      width="900"
-                      height="1200"
-                      loading="lazy"
-                      decoding="async"
-                    >
-                  </div>
                 </div>
               </div>
             </div>
@@ -545,15 +567,20 @@
           <article class="specialist__card" data-accordion>
             <div class="specialist__layout">
               <div class="specialist__media">
-                <img
-                  class="specialist__photo"
-                  src="img/master-cosmetologist.jpg"
-                  alt="Косметолог Анна — мастер салона Шабаш"
-                  width="900"
-                  height="1200"
-                  loading="lazy"
-                  decoding="async"
-                >
+                <div class="specialist__swiper swiper" data-specialist-swiper>
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <img class="specialist__photo" src="img/master-cosmetologist.jpg" alt="Косметолог Анна — мастер салона Шабаш" width="900" height="1200" decoding="async">
+                    </div>
+                  </div>
+                  <div class="specialist__swiper-pagination swiper-pagination" aria-hidden="true"></div>
+                  <button class="specialist__swiper-nav specialist__swiper-nav--prev" type="button" aria-label="Предыдущее фото">
+                    <span class="specialist__swiper-nav-icon" aria-hidden="true"></span>
+                  </button>
+                  <button class="specialist__swiper-nav specialist__swiper-nav--next" type="button" aria-label="Следующее фото">
+                    <span class="specialist__swiper-nav-icon" aria-hidden="true"></span>
+                  </button>
+                </div>
               </div>
 
               <div class="specialist__intro">
@@ -589,13 +616,28 @@
                 <div class="specialist__panel-inner">
                   <div class="specialist__details">
                     <div class="specialist__about">
-                      <h3 class="specialist__subtitle">О мастере</h3>
-                      <p>
-                        Работаю с&nbsp;чувствительной и&nbsp;возрастной кожей: бережные чистки,
-                        пилинги и&nbsp;уходовые протоколы. Подбираю программу под тип кожи
-                        и&nbsp;задачу — увлажнение, выравнивание тона, восстановление.
-                        Перед процедурой всегда обсуждаем ожидания и&nbsp;противопоказания.
-                      </p>
+                      <div class="specialist__about-main">
+                        <div class="specialist__media specialist__media--side">
+                          <img
+                            class="specialist__photo"
+                            src="img/spa.webp"
+                            alt="Косметология и уход за кожей"
+                            width="900"
+                            height="1200"
+                            loading="lazy"
+                            decoding="async"
+                          >
+                        </div>
+                        <div class="specialist__about-copy">
+                          <h3 class="specialist__subtitle">О мастере</h3>
+                          <p>
+                            Работаю с&nbsp;чувствительной и&nbsp;возрастной кожей: бережные чистки,
+                            пилинги и&nbsp;уходовые протоколы. Подбираю программу под тип кожи
+                            и&nbsp;задачу — увлажнение, выравнивание тона, восстановление.
+                            Перед процедурой всегда обсуждаем ожидания и&nbsp;противопоказания.
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="specialist__prices">
@@ -649,18 +691,6 @@
                       </a>
                     </div>
                   </div>
-
-                  <div class="specialist__media specialist__media--side">
-                    <img
-                      class="specialist__photo"
-                      src="img/spa.webp"
-                      alt="Косметология и уход за кожей"
-                      width="900"
-                      height="1200"
-                      loading="lazy"
-                      decoding="async"
-                    >
-                  </div>
                 </div>
               </div>
             </div>
@@ -697,7 +727,7 @@
             aria-selected="true"
             data-docs-person
           >
-            <img class="docs__person-photo" src="img/master-colorist.jpg" alt="" width="64" height="64" loading="lazy" decoding="async">
+            <img class="docs__person-photo" src="img/julia/Julia.webp" alt="" width="64" height="64" loading="lazy" decoding="async">
             <span class="docs__person-info">
               <span class="docs__person-name">Юлия</span>
               <span class="docs__person-role">Парикмахер-колорист</span>

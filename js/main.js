@@ -5,6 +5,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   initMenu();
   initAccordions();
+  initSpecialistSwipers();
   initDocsTabs();
   initDocsLightbox();
   initPriceTabs();
@@ -122,6 +123,80 @@ function initAccordions() {
       setOpen(!isOpen);
     });
   });
+}
+
+function refreshSpecialistSwiper(el) {
+  const swiper = el && el.swiper;
+  if (!swiper) return;
+  swiper.update();
+  if (typeof swiper.updateSize === "function") swiper.updateSize();
+  if (typeof swiper.updateSlides === "function") swiper.updateSlides();
+}
+
+/**
+ * Main portrait Swiper per master:
+ * .specialist__layout > .specialist__media > [data-specialist-swiper]
+ * Only master photos. Nav/pagination hidden when 1 slide.
+ */
+function initSpecialistSwipers() {
+  const boot = () => {
+    if (typeof Swiper !== "function") return false;
+
+    document.querySelectorAll("[data-specialist-swiper]").forEach((el) => {
+      if (el.swiper) return;
+
+      const slideCount = el.querySelectorAll(".swiper-slide").length;
+      const multi = slideCount > 1;
+      const nextEl = el.querySelector(".specialist__swiper-nav--next");
+      const prevEl = el.querySelector(".specialist__swiper-nav--prev");
+      const pagEl = el.querySelector(".specialist__swiper-pagination");
+
+      if (!multi) {
+        [nextEl, prevEl, pagEl].forEach((node) => {
+          if (node) node.hidden = true;
+        });
+      }
+
+      const options = {
+        slidesPerView: 1,
+        speed: 450,
+        loop: multi,
+        grabCursor: multi,
+        allowTouchMove: multi,
+        watchOverflow: true,
+        observer: true,
+        observeParents: true,
+        resizeObserver: true,
+        a11y: {
+          enabled: multi,
+        },
+        on: {
+          init(swiper) {
+            requestAnimationFrame(() => refreshSpecialistSwiper(swiper.el));
+          },
+        },
+      };
+
+      if (multi && nextEl && prevEl) {
+        options.navigation = { nextEl, prevEl };
+      }
+      if (multi && pagEl) {
+        options.pagination = { el: pagEl, clickable: true };
+      }
+
+      new Swiper(el, options);
+    });
+
+    return true;
+  };
+
+  if (boot()) return;
+
+  let tries = 0;
+  const timer = window.setInterval(() => {
+    tries += 1;
+    if (boot() || tries > 40) window.clearInterval(timer);
+  }, 50);
 }
 
 /**
@@ -301,9 +376,17 @@ function initReveal() {
   ];
   if (!targets.length) return;
 
+  const reveal = (el) => {
+    el.classList.add("is-inview");
+    /* portrait Swiper was measured while media was opacity/transform animating */
+    el.querySelectorAll("[data-specialist-swiper]").forEach((node) => {
+      requestAnimationFrame(() => refreshSpecialistSwiper(node));
+    });
+  };
+
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce || !("IntersectionObserver" in window)) {
-    targets.forEach((el) => el.classList.add("is-inview"));
+    targets.forEach(reveal);
     return;
   }
 
@@ -311,7 +394,7 @@ function initReveal() {
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-inview");
+        reveal(entry.target);
         io.unobserve(entry.target);
       });
     },
