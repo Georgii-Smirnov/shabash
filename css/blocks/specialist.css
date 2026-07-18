@@ -176,6 +176,8 @@
 
 /* —— Intro —— */
 .specialist__intro {
+  container-type: inline-size;
+  container-name: specialist-intro;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -209,10 +211,16 @@
   margin: 0 0 1.15rem;
   font-family: var(--font-family-display);
   font-weight: 400;
-  font-size: clamp(2rem, 3.6vw, 3.15rem);
+  /*
+   * Size from intro column (cqi), not viewport:
+   * long titles like «Парикмахер-колорист» stay one line
+   * in the half-card layout without nowrap / scale hacks.
+   */
+  font-size: clamp(1.65rem, 100cqi / 14, 3.15rem);
   line-height: 1.15;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  text-wrap: wrap;
   color: var(--color-ink);
 }
 
@@ -464,7 +472,7 @@
   min-height: 0;
   max-height: none;
   object-fit: cover;
-  object-position: center center;
+  object-position: center 48%;
 }
 
 /* main portrait Swiper */
@@ -705,6 +713,27 @@
     color var(--duration-base) var(--ease-out);
 }
 
+/* Mobile: even grid — no ragged wrap gaps between chips */
+@media (max-width: 640px) {
+  .specialist__price-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+
+  .specialist__price-tab {
+    width: 100%;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.55rem;
+    border-radius: 0.75rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+    letter-spacing: 0.04em;
+    hyphens: none;
+  }
+}
+
 .specialist__price-tab:hover {
   border-color: rgba(139, 155, 130, 0.55);
   color: var(--color-ink);
@@ -721,15 +750,15 @@
   outline-offset: 2px;
 }
 
-/* stack panels in one cell → height = tallest category, no layout jump */
+/* height animated in JS on tab change */
 .specialist__price-panels {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  display: block;
+  overflow: hidden;
+  transition: height 0.4s var(--ease-out);
 }
 
 .specialist__prices[data-price-tabs] .specialist__price-list {
-  grid-area: 1 / 1;
-  display: grid;
+  display: none;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-content: start;
   align-items: stretch;
@@ -737,17 +766,32 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 0;
 }
 
 .specialist__prices[data-price-tabs] .specialist__price-list.is-active {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 1;
+  display: grid;
+  animation: specialist-price-in 0.35s var(--ease-out);
+}
+
+@keyframes specialist-price-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .specialist__price-panels {
+    transition: none;
+  }
+
+  .specialist__prices[data-price-tabs] .specialist__price-list.is-active {
+    animation: none;
+  }
 }
 
 .specialist__prices:not([data-price-tabs]) .specialist__price-list {
@@ -762,15 +806,15 @@
 }
 
 .specialist__price-card {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.75rem 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 1.25rem;
+  row-gap: 0.15rem;
   min-height: 3.35rem;
   height: 100%;
   box-sizing: border-box;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1.1rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-m);
   background: var(--color-surface);
@@ -782,30 +826,40 @@
 }
 
 .specialist__price-name {
-  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
   min-width: 0;
   font-family: var(--font-family-ui);
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 1.35;
+  line-height: 1.4;
   letter-spacing: 0.02em;
   color: var(--color-ink);
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.specialist__price-meta {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--color-text-muted);
 }
 
 .specialist__price-value {
-  flex: 0 1 auto;
-  max-width: 48%;
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
   font-family: var(--font-family-display);
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   font-weight: 400;
   letter-spacing: 0.02em;
-  line-height: 1.25;
+  line-height: 1.4;
   text-align: right;
   color: var(--color-sage-dark);
-  white-space: normal;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .specialist__price-note {
@@ -815,6 +869,16 @@
   line-height: 1.5;
   letter-spacing: 0.02em;
   color: var(--color-text-muted);
+}
+
+.specialist__price-note a {
+  color: var(--color-sage-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.specialist__price-note a:hover {
+  color: var(--color-ink);
 }
 
 /* —— CTA —— */
@@ -871,6 +935,10 @@
 
 .specialist__book-icon--wa {
   color: #25d366;
+}
+
+.specialist__book-icon--book {
+  color: var(--color-sage-dark);
 }
 
 .specialist__book-text {
@@ -996,7 +1064,7 @@
 
   .specialist__media--side .specialist__photo {
     object-fit: cover;
-    object-position: center center;
+    object-position: center 48%;
   }
 
   .specialist__prices {
@@ -1051,26 +1119,19 @@
   }
 
   .specialist__price-card {
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 0.3rem 0.75rem;
+    column-gap: 0.85rem;
     min-height: 0;
-    padding: 0.7rem 0.85rem;
+    padding: 0.75rem 0.9rem;
   }
 
   .specialist__price-name {
-    flex: 1 1 8rem;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     line-height: 1.4;
   }
 
   .specialist__price-value {
-    flex: 0 1 auto;
-    max-width: none;
-    margin-left: auto;
-    font-size: 0.95rem;
-    line-height: 1.3;
-    white-space: nowrap;
+    font-size: 1.05rem;
+    line-height: 1.4;
   }
 
   .specialist__book {
@@ -1084,22 +1145,18 @@
   }
 }
 
-/* iPhone SE / narrow: stack name over price */
+/* narrow: keep price on the right, name wraps under itself */
 @media (max-width: 400px) {
   .specialist__price-card {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.25rem;
+    column-gap: 0.65rem;
+    padding: 0.7rem 0.8rem;
   }
 
   .specialist__price-name {
-    flex: 0 0 auto;
+    font-size: 0.8125rem;
   }
 
   .specialist__price-value {
-    margin-left: 0;
-    text-align: left;
-    white-space: normal;
     font-size: 0.95rem;
   }
 }

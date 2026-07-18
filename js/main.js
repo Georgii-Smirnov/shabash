@@ -203,17 +203,38 @@ function initSpecialistSwipers() {
  * Price category chips:
  * [data-price-tabs]
  *   [data-price-tab][aria-controls] → [data-price-panel]
+ * Height of .specialist__price-panels animates to active list.
  */
 function initPriceTabs() {
   const roots = document.querySelectorAll("[data-price-tabs]");
   if (!roots.length) return;
 
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   roots.forEach((root) => {
     const tabs = [...root.querySelectorAll("[data-price-tab]")];
     const panels = [...root.querySelectorAll("[data-price-panel]")];
+    const shell = root.querySelector(".specialist__price-panels");
     if (!tabs.length || !panels.length) return;
 
-    const activate = (index) => {
+    const measureActive = () => {
+      const active = panels.find((p) => p.classList.contains("is-active"));
+      return active ? active.scrollHeight : 0;
+    };
+
+    const setShellHeight = (px, animate) => {
+      if (!shell) return;
+      if (!animate || reduceMotion) {
+        shell.style.height = `${px}px`;
+        return;
+      }
+      const from = shell.getBoundingClientRect().height;
+      shell.style.height = `${from}px`;
+      void shell.offsetHeight;
+      shell.style.height = `${px}px`;
+    };
+
+    const activate = (index, animate = true) => {
       tabs.forEach((tab, i) => {
         const on = i === index;
         tab.classList.toggle("is-active", on);
@@ -221,20 +242,26 @@ function initPriceTabs() {
         tab.tabIndex = on ? 0 : -1;
       });
 
-      /* keep all panels in layout (same grid cell) so photo height stays stable */
       panels.forEach((panel, i) => {
         const on = i === index;
         panel.classList.toggle("is-active", on);
-        panel.hidden = false;
+        panel.hidden = !on;
         panel.setAttribute("aria-hidden", on ? "false" : "true");
         panel.inert = !on;
       });
+
+      setShellHeight(measureActive(), animate);
     };
 
-    activate(Math.max(0, tabs.findIndex((tab) => tab.classList.contains("is-active"))));
+    const start = Math.max(0, tabs.findIndex((tab) => tab.classList.contains("is-active")));
+    activate(start, false);
+
+    window.addEventListener("resize", () => {
+      setShellHeight(measureActive(), false);
+    });
 
     tabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => activate(index));
+      tab.addEventListener("click", () => activate(index, true));
 
       tab.addEventListener("keydown", (event) => {
         if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
@@ -242,7 +269,7 @@ function initPriceTabs() {
         const dir = event.key === "ArrowRight" ? 1 : -1;
         const next = (index + dir + tabs.length) % tabs.length;
         tabs[next].focus();
-        activate(next);
+        activate(next, true);
       });
     });
   });
