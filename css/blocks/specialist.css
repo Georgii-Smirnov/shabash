@@ -253,7 +253,7 @@
   min-height: 3.15rem;
   padding: 0.85rem 1.5rem 0.85rem 1.65rem;
   border: 1px solid var(--color-border-strong);
-  border-radius: 6px;
+  border-radius: var(--radius-m);
   background: transparent;
   color: var(--color-ink);
   font-family: var(--font-family-ui);
@@ -635,8 +635,6 @@
 
 .specialist__services {
   margin: 0.85rem 0 0;
-  padding: 0;
-  list-style: none;
 }
 
 .specialist__services li {
@@ -683,7 +681,7 @@
   min-height: 2.25rem;
   padding: 0.45rem 0.9rem;
   border: 1px solid var(--color-border);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--color-text-muted);
   font-family: var(--font-family-ui);
@@ -749,9 +747,6 @@
   align-content: start;
   align-items: stretch;
   gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
 .specialist__prices[data-price-tabs] .specialist__price-list.is-active {
@@ -786,9 +781,6 @@
   align-content: start;
   align-items: stretch;
   gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
 .specialist__price-card {
@@ -883,7 +875,7 @@
   min-height: 3.25rem;
   padding: 0.85rem 1rem;
   border: 1.5px solid var(--color-sage);
-  border-radius: 8px;
+  border-radius: var(--radius-m);
   background: transparent;
   color: var(--color-ink);
   font-family: var(--font-family-ui);

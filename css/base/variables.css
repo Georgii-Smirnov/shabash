@@ -17,14 +17,7 @@
   --color-stone: #C8C2B8;      /* мрамор, камень, бордеры */
   --color-wood: #3D342C;       /* тёмное дерево */
 
-  /* semantic aliases for newer components */
-  --color-beige: var(--color-paper-soft);
-  --color-cream: var(--color-paper);
   --color-cream-soft: #FAF7F1;
-  --color-olive: var(--color-ink);
-  --color-neutral: #5A635C;
-  --color-gray: var(--color-plaster);
-  --color-brown: var(--color-wood);
 
   /* —— Semantic surfaces —— */
   --color-primary: var(--color-sage);
@@ -36,16 +29,12 @@
   --color-bg-soft: var(--color-cream-soft);
   --color-bg-alt: var(--color-paper-soft);
   --color-bg-dark: var(--color-ink);
-  --color-bg-footer: var(--color-plaster);
-  --color-bg-modal: var(--color-stone);
   --color-card: var(--color-paper-soft);
-  --color-card-alt: var(--color-plaster);
   --color-surface: #FFFCFA;
 
   --color-text: var(--color-ink);
   --color-text-muted: #5A635C;
   --color-text-inverse: var(--color-paper);
-  --color-text-on-primary: #ffffff;
   --color-text-heading: var(--color-ink);
 
   --color-border: rgba(28, 36, 32, 0.12);
@@ -128,10 +117,7 @@
   /* —— Z-index —— */
   --z-base: 1;
   --z-header: 100;
-  --z-dropdown: 200;
   --z-overlay: 300;
-  --z-modal: 400;
-  --z-toast: 500;
 }
 
 /* iPad Pro landscape / large tablet */

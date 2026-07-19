@@ -45,11 +45,15 @@ function initVendorScripts() {
     Promise.all([
       loadScript("js/swiper-bundle.min.js"),
       loadScript("js/glightbox.min.js"),
-    ]).then(() => {
-      initSpecialistSwipers();
-      initDocsTabs();
-      initDocsLightbox();
-    });
+    ])
+      .then(() => {
+        initSpecialistSwipers();
+        initDocsTabs();
+        initDocsLightbox();
+      })
+      .catch(() => {
+        /* silent — carousels/lightbox gracefully degrade if scripts fail */
+      });
   };
 
   // 1. Strict viewport IntersectionObserver (no rootMargin — avoids Lighthouse load)
@@ -123,6 +127,8 @@ function initMenu() {
     burger.setAttribute("aria-expanded", "true");
     burger.setAttribute("aria-label", "Закрыть меню");
     document.body.classList.add("is-menu-open");
+    document.getElementById("main")?.setAttribute("inert", "true");
+    document.querySelector("footer")?.setAttribute("inert", "true");
     // focus after paint — avoids forced layout in the same turn as class writes
     requestAnimationFrame(() => burger.focus());
   };
@@ -134,6 +140,8 @@ function initMenu() {
     burger.setAttribute("aria-expanded", "false");
     burger.setAttribute("aria-label", "Открыть меню");
     document.body.classList.remove("is-menu-open");
+    document.getElementById("main")?.removeAttribute("inert");
+    document.querySelector("footer")?.removeAttribute("inert");
 
     window.setTimeout(() => {
       if (!menu.classList.contains("is-open")) {
@@ -207,12 +215,14 @@ function initAccordions() {
 
       // Accordion can change card height — refresh nearby portrait swipers after paint
       if (open) {
-        requestAnimationFrame(() => {
-          root
-            .closest(".specialist__card")
-            ?.querySelectorAll("[data-specialist-swiper]")
-            .forEach((node) => refreshSpecialistSwiper(node));
-        });
+        const swipers = root
+          .closest(".specialist__card")
+          ?.querySelectorAll("[data-specialist-swiper]");
+        if (swipers?.length) {
+          requestAnimationFrame(() => {
+            swipers.forEach((node) => refreshSpecialistSwiper(node));
+          });
+        }
       }
     };
 
@@ -423,6 +433,7 @@ function initDocsTabs() {
           grabCursor: true,
           observer: false,
           observeParents: false,
+          a11y: { enabled: true },
           navigation: {
             nextEl: sliderRoot.querySelector(".docs__nav--next"),
             prevEl: sliderRoot.querySelector(".docs__nav--prev"),
@@ -469,8 +480,42 @@ function initDocsTabs() {
         });
       };
 
-      people.forEach((btn) => {
-        btn.addEventListener("click", () => activate(btn));
+      const rovingTabIndex = (activeIndex) => {
+        people.forEach((p, i) => {
+          p.tabIndex = i === activeIndex ? 0 : -1;
+        });
+      };
+
+      const activeIndex = () =>
+        Math.max(0, people.findIndex((p) => p.classList.contains("is-active")));
+      rovingTabIndex(activeIndex());
+
+      people.forEach((btn, index) => {
+        btn.addEventListener("click", () => {
+          activate(btn);
+          rovingTabIndex(index);
+        });
+
+        btn.addEventListener("keydown", (event) => {
+          if (
+            event.key !== "ArrowRight" &&
+            event.key !== "ArrowLeft" &&
+            event.key !== "Home" &&
+            event.key !== "End"
+          )
+            return;
+          event.preventDefault();
+          let next = index;
+          if (event.key === "ArrowRight")
+            next = (index + 1) % people.length;
+          else if (event.key === "ArrowLeft")
+            next = (index - 1 + people.length) % people.length;
+          else if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = people.length - 1;
+          people[next].focus();
+          rovingTabIndex(next);
+          activate(people[next]);
+        });
       });
     });
 

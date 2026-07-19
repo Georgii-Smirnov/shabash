@@ -29,8 +29,6 @@
   object-fit: cover;
   object-position: center center;
   transform: scale(1.02);
-  /* не пересчитывать layout при скролле */
-  will-change: auto;
   backface-visibility: hidden;
 }
 
@@ -249,7 +247,7 @@
   min-height: 3.75rem;
   padding: 1.05rem 2.25rem;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--radius-m);
   background: linear-gradient(
     180deg,
     #9aab90 0%,
@@ -400,14 +398,14 @@
   gap: 0.35rem;
   width: 4.5rem;
   transform: translateX(-50%);
-  color: #6d8a62;
+  color: var(--color-sage);
   text-decoration: none;
   opacity: 1;
   transition: color 0.25s ease;
 }
 
 .hero__scroll:hover {
-  color: #5a7550;
+  color: var(--color-sage-dark);
 }
 
 .hero__scroll-mouse {
@@ -415,7 +413,7 @@
   width: 1.3rem;
   height: 2.05rem;
   border: 2px solid currentColor;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
 }
 
 .hero__scroll-wheel {
@@ -440,7 +438,7 @@
   text-align: center;
   text-transform: uppercase;
   line-height: 1;
-  color: #6d8a62;
+  color: var(--color-sage);
 }
 
 .hero__scroll-chevron {
@@ -823,7 +821,7 @@
     width: 100%;
     min-height: 3.35rem;
     padding: 0.95rem 1.25rem;
-    border-radius: 6px;
+    border-radius: var(--radius-m);
     font-size: 0.75rem;
     letter-spacing: 0.04em;
     box-shadow:

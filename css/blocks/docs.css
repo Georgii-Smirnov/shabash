@@ -461,7 +461,7 @@
   .docs__cert {
     max-height: min(50vh, 22rem);
     padding: 0.55rem;
-    border-radius: 8px;
+    border-radius: var(--radius-m);
   }
 
   .docs__nav {

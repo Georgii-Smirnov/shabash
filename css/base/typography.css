@@ -70,48 +70,6 @@ h5,
   line-height: var(--line-height-snug);
 }
 
-/* —— Text helpers —— */
-.lead {
-  font-size: var(--font-size-l);
-  line-height: var(--line-height-relaxed);
-  color: var(--color-text-muted);
-  max-width: 36em;
-}
-
-.text-muted {
-  color: var(--color-text-muted);
-}
-
-.text-inverse {
-  color: var(--color-text-inverse);
-}
-
-/* Eyebrow / label — boutique signature */
-.label {
-  display: inline-block;
-  font-size: var(--font-size-xs);
-  line-height: 1.4;
-  letter-spacing: var(--letter-spacing-label);
-  text-transform: uppercase;
-  color: var(--color-primary);
-}
-
-/* Links */
-a:not([class]) {
-  color: var(--color-primary);
-  text-decoration: none;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  background-size: 0 1px;
-  transition: background-size var(--transition), color var(--transition);
-}
-
-a:not([class]):hover {
-  color: var(--color-primary-hover);
-  background-size: 100% 1px;
-}
-
 /* Focus */
 :focus-visible {
   outline: 2px solid var(--color-focus);
