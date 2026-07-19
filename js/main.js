@@ -8,11 +8,17 @@
 document.addEventListener("DOMContentLoaded", () => {
   initMenu();
   initAccordions();
-  initPriceTabs();
   initReveal();
   initLazyMap();
   initCookieConsent();
   initVendorScripts();
+  // Defer price-tabs layout work to avoid forced reflow on critical path.
+  // Heavy read (scrollHeight / getBoundingClientRect) happens after first paint.
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(() => initPriceTabs(), { timeout: 2000 });
+  } else {
+    setTimeout(initPriceTabs, 0);
+  }
 });
 
 const scriptCache = new Map();
@@ -326,19 +332,21 @@ function initPriceTabs() {
     const applyHeight = (animate) => {
       if (!shell) return;
 
-      // Read geometry in one place, after DOM class writes have flushed via rAF
       const active = panels.find((p) => p.classList.contains("is-active"));
-      const to = active ? active.scrollHeight : 0;
 
+      // On initial load (animate=false) avoid reading scrollHeight to prevent
+      // forced synchronous layout. Let the shell size to content naturally.
       if (!animate || reduceMotion) {
-        shell.style.height = `${to}px`;
+        shell.style.height = active ? "auto" : "0px";
         return;
       }
 
+      // Animated transition: read current geometry, then write starting height,
+      // then write target height in the next frame so the browser can interpolate.
+      const to = active ? active.scrollHeight : 0;
       const from = shell.getBoundingClientRect().height;
       shell.style.height = `${from}px`;
 
-      // Double rAF instead of void offsetHeight — same frame-split, less sync thrash
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           shell.style.height = `${to}px`;
