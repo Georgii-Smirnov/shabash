@@ -12,14 +12,42 @@
   <meta property="og:image" content="img/hero.webp">
   <meta name="twitter:card" content="summary_large_image">
   <title>Шабаш — студия красоты в Москве</title>
-  <link rel="icon" href="img/logo.png" type="image/png">
-  <link rel="apple-touch-icon" href="img/logo.png">
+  <link rel="icon" href="img/logo.webp" type="image/webp">
+  <link rel="apple-touch-icon" href="img/logo.webp">
+  <!-- Critical CSS only (bundled; no @import chain) -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Google Fonts: non-blocking (font-display=swap already in the CSS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/css/glightbox.min.css">
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap">
+  </noscript>
+
+  <!-- Third-party CSS: not needed for first paint (sliders / lightbox) -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    media="print"
+    onload="this.media='all'"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/css/glightbox.min.css"
+    media="print"
+    onload="this.media='all'"
+  >
+  <noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/css/glightbox.min.css">
+  </noscript>
+
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/js/glightbox.min.js" defer></script>
   <script src="js/main.js" defer></script>
@@ -31,7 +59,7 @@
       <a class="header__logo" href="./" aria-label="Шабаш — студия красоты">
         <img
           class="header__logo-img"
-          src="img/logo.png"
+          src="img/logo.webp"
           alt="Шабаш — студия красоты"
           width="150"
           height="40"
@@ -99,18 +127,15 @@
   <main class="main" id="main">
     <section class="hero" id="hero" aria-labelledby="hero-title">
       <div class="hero__bg" aria-hidden="true">
-        <picture class="hero__picture">
-          <source srcset="img/hero.webp" type="image/webp">
-          <img
-            class="hero__photo"
-            src="img/hero.jpg"
-            alt=""
-            width="1280"
-            height="720"
-            fetchpriority="high"
-            decoding="async"
-          >
-        </picture>
+        <img
+          class="hero__photo"
+          src="img/hero.webp"
+          alt=""
+          width="1280"
+          height="720"
+          fetchpriority="high"
+          decoding="async"
+        >
         <div class="hero__overlay"></div>
         <div class="hero__sparkles">
           <span class="hero__sparkle"></span>
@@ -433,13 +458,13 @@
                 <div class="specialist__swiper swiper" data-specialist-swiper>
                   <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                      <img class="specialist__photo" src="img/ruslana/ruslana-2.jpg" alt="Руслана Бутина — мастер ногтевого сервиса салона Шабаш" width="900" height="1200" decoding="async">
+                      <img class="specialist__photo" src="img/ruslana/ruslana-2.webp" alt="Руслана Бутина — мастер ногтевого сервиса салона Шабаш" width="900" height="1200" decoding="async">
                     </div>
                     <div class="swiper-slide">
-                      <img class="specialist__photo" src="img/ruslana/ruslana-3.jpg" alt="Руслана Бутина — аппаратный маникюр" width="900" height="1200" loading="lazy" decoding="async">
+                      <img class="specialist__photo" src="img/ruslana/ruslana-3.webp" alt="Руслана Бутина — аппаратный маникюр" width="900" height="1200" loading="lazy" decoding="async">
                     </div>
                     <div class="swiper-slide">
-                      <img class="specialist__photo" src="img/ruslana/ruslana-1.jpg" alt="Руслана Бутина — покрытие гель-лаком" width="900" height="1200" loading="lazy" decoding="async">
+                      <img class="specialist__photo" src="img/ruslana/ruslana-1.webp" alt="Руслана Бутина — покрытие гель-лаком" width="900" height="1200" loading="lazy" decoding="async">
                     </div>
                   </div>
                   <div class="specialist__swiper-pagination swiper-pagination" aria-hidden="true"></div>
@@ -590,16 +615,16 @@
                 <div class="specialist__swiper swiper" data-specialist-swiper>
                   <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                      <img class="specialist__photo" src="img/anna/anna-4.jpg" alt="Косметолог Анна — мастер салона Шабаш" width="900" height="1200" decoding="async">
+                      <img class="specialist__photo" src="img/anna/anna-4.webp" alt="Косметолог Анна — мастер салона Шабаш" width="900" height="1200" decoding="async">
                     </div>
                     <div class="swiper-slide">
-                      <img class="specialist__photo" src="img/anna/anna-2.jpg" alt="Косметолог Анна — портрет" width="900" height="1200" loading="lazy" decoding="async">
+                      <img class="specialist__photo" src="img/anna/anna-2.webp" alt="Косметолог Анна — портрет" width="900" height="1200" loading="lazy" decoding="async">
                     </div>
                     <div class="swiper-slide">
-                      <img class="specialist__photo" src="img/anna/anna-3.jpg" alt="Косметолог Анна — уход" width="900" height="1200" loading="lazy" decoding="async">
+                      <img class="specialist__photo" src="img/anna/anna-3.webp" alt="Косметолог Анна — уход" width="900" height="1200" loading="lazy" decoding="async">
                     </div>
                     <div class="swiper-slide">
-                      <img class="specialist__photo" src="img/anna/anna-1.jpg" alt="Косметолог Анна — профессиональный уход" width="900" height="1200" loading="lazy" decoding="async">
+                      <img class="specialist__photo" src="img/anna/anna-1.webp" alt="Косметолог Анна — профессиональный уход" width="900" height="1200" loading="lazy" decoding="async">
                     </div>
                   </div>
                   <div class="specialist__swiper-pagination swiper-pagination" aria-hidden="true"></div>
@@ -834,7 +859,7 @@
             aria-selected="false"
             data-docs-person
           >
-            <img class="docs__person-photo" src="img/ruslana/ruslana-2.jpg" alt="" width="64" height="64" loading="lazy" decoding="async">
+            <img class="docs__person-photo" src="img/ruslana/ruslana-2.webp" alt="" width="64" height="64" loading="lazy" decoding="async">
             <span class="docs__person-info">
               <span class="docs__person-name">Руслана</span>
               <span class="docs__person-role">Ногтевой сервис</span>
@@ -849,7 +874,7 @@
             aria-selected="false"
             data-docs-person
           >
-            <img class="docs__person-photo" src="img/anna/anna-4.jpg" alt="" width="64" height="64" loading="lazy" decoding="async">
+            <img class="docs__person-photo" src="img/anna/anna-4.webp" alt="" width="64" height="64" loading="lazy" decoding="async">
             <span class="docs__person-info">
               <span class="docs__person-name">Анна</span>
               <span class="docs__person-role">Косметолог</span>
@@ -946,13 +971,13 @@
                   </a>
                 </div>
                 <div class="swiper-slide">
-                  <a class="docs__cert" href="img/docs/ruslana-06.jpg" data-gallery="docs-2">
-                    <img class="docs__cert-img" src="img/docs/ruslana-06.jpg" alt="Certificate — Instructor Manicure Case — Руслана" width="480" height="640" loading="lazy" decoding="async">
+                  <a class="docs__cert" href="img/docs/ruslana-06.webp" data-gallery="docs-2">
+                    <img class="docs__cert-img" src="img/docs/ruslana-06.webp" alt="Certificate — Instructor Manicure Case — Руслана" width="480" height="640" loading="lazy" decoding="async">
                   </a>
                 </div>
                 <div class="swiper-slide">
-                  <a class="docs__cert" href="img/docs/ruslana-07.jpg" data-gallery="docs-2">
-                    <img class="docs__cert-img" src="img/docs/ruslana-07.jpg" alt="Certificate — Instructor Modeling and Design of Nails — Руслана" width="480" height="640" loading="lazy" decoding="async">
+                  <a class="docs__cert" href="img/docs/ruslana-07.webp" data-gallery="docs-2">
+                    <img class="docs__cert-img" src="img/docs/ruslana-07.webp" alt="Certificate — Instructor Modeling and Design of Nails — Руслана" width="480" height="640" loading="lazy" decoding="async">
                   </a>
                 </div>
                 <div class="swiper-slide">
@@ -1003,8 +1028,8 @@
                   </a>
                 </div>
                 <div class="swiper-slide">
-                  <a class="docs__cert" href="img/about.jpg" data-gallery="docs-3">
-                    <img class="docs__cert-img" src="img/about.jpg" alt="Сертификат по уходу за кожей" width="480" height="640" loading="lazy" decoding="async">
+                  <a class="docs__cert" href="img/about.webp" data-gallery="docs-3">
+                    <img class="docs__cert-img" src="img/about.webp" alt="Сертификат по уходу за кожей" width="480" height="640" loading="lazy" decoding="async">
                   </a>
                 </div>
                 <div class="swiper-slide">
