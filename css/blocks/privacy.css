@@ -233,9 +233,12 @@
   margin-bottom: 0;
 }
 
-/* —— Cookie / data table inside legal sections —— */
+/* —— Cookie / data table ——
+   Pure CSS Grid: single column on mobile, 3 columns on desktop.
+   No display:table hacks — those break across browsers.
+   ========================================================================== */
 .legal__table {
-  display: block;
+  display: grid;
   width: 100%;
   margin: 1rem 0;
   border: 1px solid var(--color-border);
@@ -247,8 +250,8 @@
 .legal__table-row {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.35rem;
-  padding: 0.95rem 1.15rem;
+  gap: 0.3rem;
+  padding: 0.85rem 1rem;
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -271,8 +274,8 @@
 .legal__table-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 0.85rem;
-  margin-top: 0.15rem;
+  gap: 0.3rem 0.75rem;
+  margin-top: 0.1rem;
   font-family: var(--font-family-ui);
   font-size: 0.78rem;
   letter-spacing: 0.02em;
@@ -285,14 +288,16 @@
 }
 
 .legal__table-desc {
-  margin: 0.4rem 0 0;
+  margin: 0.25rem 0 0;
   font-family: var(--font-family-ui);
   font-size: 0.875rem;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--color-text-muted);
 }
 
+/* header row — hidden on mobile */
 .legal__table-row--header {
+  display: none;
   background: var(--color-paper-soft);
   font-family: var(--font-family-ui);
   font-size: 0.7rem;
@@ -300,64 +305,41 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-sage-dark);
-  display: none;
 }
 
 @media (min-width: 720px) {
-  .legal__table {
-    display: table;
-    border-collapse: separate;
-    border-spacing: 0;
-    table-layout: fixed;
+  .legal__table-row--header {
+    display: grid;
+    grid-template-columns: 28% 32% 1fr;
+    gap: 0;
+    padding: 0.65rem 1rem;
+    align-items: center;
+  }
+
+  .legal__table-row--header > * {
+    padding: 0;
   }
 
   .legal__table-row {
-    display: table-row;
+    grid-template-columns: 28% 32% 1fr;
+    gap: 0;
     padding: 0;
+    align-items: stretch;
   }
 
   .legal__table-row > .legal__table-name,
   .legal__table-row > .legal__table-meta,
   .legal__table-row > .legal__table-desc {
-    display: table-cell;
-    padding: 0.85rem 1rem;
-    border-bottom: 1px solid var(--color-border);
-    vertical-align: top;
-  }
-
-  .legal__table-row > .legal__table-meta {
-    border-bottom: 0;
-    padding-top: 0;
+    padding: 0.75rem 1rem;
+    border-right: 1px solid var(--color-border);
   }
 
   .legal__table-row > .legal__table-desc {
-    padding-top: 0;
+    border-right: 0;
   }
 
-  .legal__table-row:last-child > * {
-    border-bottom: 0;
-  }
-
-  .legal__table-row--header {
-    display: table-row;
-  }
-
-  .legal__table-row--header > * {
-    padding: 0.85rem 1rem;
-    border-bottom: 1px solid var(--color-border);
-  }
-}
-
-/* column proportions for the table at >=720px */
-@media (min-width: 720px) {
-  .legal__table-row > .legal__table-name {
-    width: 28%;
-  }
-  .legal__table-row > .legal__table-meta {
-    width: 32%;
-  }
-  .legal__table-row > .legal__table-desc {
-    width: 40%;
+  .legal__table-desc {
+    margin: 0;
   }
 }
 
