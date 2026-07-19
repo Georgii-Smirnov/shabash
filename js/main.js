@@ -1,16 +1,78 @@
 /**
  * Shabash — UI bootstrap
+ *
+ * Heavy layout work (Swiper measure, price panel heights) is deferred until
+ * needed so we avoid forced reflow on first paint / LCP.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
   initMenu();
   initAccordions();
-  initSpecialistSwipers();
-  initDocsTabs();
-  initDocsLightbox();
   initPriceTabs();
   initReveal();
+  // Swiper / lightbox: wait until near viewport (or idle fallback)
+  whenIdleOrVisible(
+    [
+      ...document.querySelectorAll("[data-specialist-swiper]"),
+      ...document.querySelectorAll("[data-docs]"),
+    ],
+    () => {
+      initSpecialistSwipers();
+      initDocsTabs();
+      initDocsLightbox();
+    }
+  );
 });
+
+/**
+ * Run `fn` when any target nears the viewport, or on idle if IO unavailable.
+ * Avoids Swiper reading geometry for off-screen carousels during load.
+ */
+function whenIdleOrVisible(targets, fn) {
+  let done = false;
+  const run = () => {
+    if (done) return;
+    done = true;
+    fn();
+  };
+
+  const nodes = targets.filter(Boolean);
+  if (!nodes.length) {
+    scheduleIdle(run);
+    return;
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    scheduleIdle(run);
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      run();
+    },
+    { rootMargin: "240px 0px", threshold: 0.01 }
+  );
+
+  nodes.forEach((el) => io.observe(el));
+
+  // Safety: if user never scrolls, still init after idle so features work
+  scheduleIdle(() => {
+    // keep IO; if already run, no-op. If not, allow longer wait —
+    // only force after 4s so LCP path stays clear.
+    window.setTimeout(run, 4000);
+  });
+}
+
+function scheduleIdle(fn) {
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(() => fn(), { timeout: 2000 });
+  } else {
+    window.setTimeout(fn, 1);
+  }
+}
 
 function initMenu() {
   const burger = document.getElementById("burger");
@@ -19,7 +81,6 @@ function initMenu() {
 
   if (!burger || !menu || !overlay) return;
 
-  /* trap focus: burger (always) + links inside drawer */
   const focusableSelector =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -31,7 +92,8 @@ function initMenu() {
     burger.setAttribute("aria-expanded", "true");
     burger.setAttribute("aria-label", "Закрыть меню");
     document.body.classList.add("is-menu-open");
-    burger.focus();
+    // focus after paint — avoids forced layout in the same turn as class writes
+    requestAnimationFrame(() => burger.focus());
   };
 
   const close = () => {
@@ -48,7 +110,7 @@ function initMenu() {
       }
     }, 400);
 
-    burger.focus();
+    requestAnimationFrame(() => burger.focus());
   };
 
   const toggle = () => {
@@ -111,6 +173,16 @@ function initAccordions() {
       if (label) {
         label.textContent = open ? openLabel : closedLabel;
       }
+
+      // Accordion can change card height — refresh nearby portrait swipers after paint
+      if (open) {
+        requestAnimationFrame(() => {
+          root
+            .closest(".specialist__card")
+            ?.querySelectorAll("[data-specialist-swiper]")
+            .forEach((node) => refreshSpecialistSwiper(node));
+        });
+      }
     };
 
     setOpen(false);
@@ -125,14 +197,12 @@ function initAccordions() {
 function refreshSpecialistSwiper(el) {
   const swiper = el && el.swiper;
   if (!swiper) return;
+  // One update is enough; avoid updateSize + updateSlides cascade (extra reflows)
   swiper.update();
-  if (typeof swiper.updateSize === "function") swiper.updateSize();
-  if (typeof swiper.updateSlides === "function") swiper.updateSlides();
 }
 
 /**
- * Main portrait Swiper per master:
- * .specialist__layout > .specialist__media > [data-specialist-swiper]
+ * Main portrait Swiper per master.
  * Only master photos. Nav/pagination hidden when 1 slide.
  */
 function initSpecialistSwipers() {
@@ -161,16 +231,12 @@ function initSpecialistSwipers() {
         grabCursor: multi,
         allowTouchMove: multi,
         watchOverflow: true,
-        observer: true,
-        observeParents: true,
+        // MutationObserver layout thrash — update manually when accordion opens
+        observer: false,
+        observeParents: false,
         resizeObserver: true,
         a11y: {
           enabled: multi,
-        },
-        on: {
-          init(swiper) {
-            requestAnimationFrame(() => refreshSpecialistSwiper(swiper.el));
-          },
         },
       };
 
@@ -197,10 +263,9 @@ function initSpecialistSwipers() {
 }
 
 /**
- * Price category chips:
- * [data-price-tabs]
- *   [data-price-tab][aria-controls] → [data-price-panel]
+ * Price category chips.
  * Height of .specialist__price-panels animates to active list.
+ * Reads (scrollHeight / getBoundingClientRect) only after writes, in rAF.
  */
 function initPriceTabs() {
   const roots = document.querySelectorAll("[data-price-tabs]");
@@ -214,24 +279,42 @@ function initPriceTabs() {
     const shell = root.querySelector(".specialist__price-panels");
     if (!tabs.length || !panels.length) return;
 
-    const measureActive = () => {
-      const active = panels.find((p) => p.classList.contains("is-active"));
-      return active ? active.scrollHeight : 0;
-    };
+    let pending = false;
 
-    const setShellHeight = (px, animate) => {
+    const applyHeight = (animate) => {
       if (!shell) return;
+
+      // Read geometry in one place, after DOM class writes have flushed via rAF
+      const active = panels.find((p) => p.classList.contains("is-active"));
+      const to = active ? active.scrollHeight : 0;
+
       if (!animate || reduceMotion) {
-        shell.style.height = `${px}px`;
+        shell.style.height = `${to}px`;
         return;
       }
+
       const from = shell.getBoundingClientRect().height;
       shell.style.height = `${from}px`;
-      void shell.offsetHeight;
-      shell.style.height = `${px}px`;
+
+      // Double rAF instead of void offsetHeight — same frame-split, less sync thrash
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          shell.style.height = `${to}px`;
+        });
+      });
+    };
+
+    const scheduleHeight = (animate) => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        pending = false;
+        applyHeight(animate);
+      });
     };
 
     const activate = (index, animate = true) => {
+      // All writes first — no geometry reads in this turn
       tabs.forEach((tab, i) => {
         const on = i === index;
         tab.classList.toggle("is-active", on);
@@ -247,15 +330,24 @@ function initPriceTabs() {
         panel.inert = !on;
       });
 
-      setShellHeight(measureActive(), animate);
+      scheduleHeight(animate);
     };
 
-    const start = Math.max(0, tabs.findIndex((tab) => tab.classList.contains("is-active")));
+    const start = Math.max(
+      0,
+      tabs.findIndex((tab) => tab.classList.contains("is-active"))
+    );
     activate(start, false);
 
-    window.addEventListener("resize", () => {
-      setShellHeight(measureActive(), false);
-    });
+    let resizeTick = 0;
+    window.addEventListener(
+      "resize",
+      () => {
+        window.cancelAnimationFrame(resizeTick);
+        resizeTick = window.requestAnimationFrame(() => applyHeight(false));
+      },
+      { passive: true }
+    );
 
     tabs.forEach((tab, index) => {
       tab.addEventListener("click", () => activate(index, true));
@@ -274,10 +366,6 @@ function initPriceTabs() {
 
 /**
  * Docs: person tabs + Swiper per master + GLightbox.
- *
- * [data-docs]
- *   [data-docs-person][aria-controls] → [data-docs-pack]
- *   [data-docs-swiper].swiper > .swiper-wrapper > .swiper-slide > a.docs__cert
  */
 function initDocsTabs() {
   const roots = document.querySelectorAll("[data-docs]");
@@ -292,9 +380,9 @@ function initDocsTabs() {
       const swipers = new Map();
 
       packs.forEach((pack) => {
-        const root = pack.querySelector("[data-docs-slider]");
+        const sliderRoot = pack.querySelector("[data-docs-slider]");
         const el = pack.querySelector("[data-docs-swiper]");
-        if (!root || !el) return;
+        if (!sliderRoot || !el) return;
 
         const swiper = new Swiper(el, {
           slidesPerView: 1,
@@ -302,14 +390,14 @@ function initDocsTabs() {
           speed: 450,
           watchOverflow: true,
           grabCursor: true,
-          observer: true,
-          observeParents: true,
+          observer: false,
+          observeParents: false,
           navigation: {
-            nextEl: root.querySelector(".docs__nav--next"),
-            prevEl: root.querySelector(".docs__nav--prev"),
+            nextEl: sliderRoot.querySelector(".docs__nav--next"),
+            prevEl: sliderRoot.querySelector(".docs__nav--prev"),
           },
           pagination: {
-            el: root.querySelector(".docs__pagination"),
+            el: sliderRoot.querySelector(".docs__pagination"),
             clickable: true,
           },
           breakpoints: {
@@ -341,6 +429,7 @@ function initDocsTabs() {
           if (on) {
             const swiper = swipers.get(pack);
             if (!swiper) return;
+            // Measure after the pack becomes visible (next frame)
             requestAnimationFrame(() => {
               swiper.update();
               swiper.slideTo(0, 0);
@@ -391,7 +480,7 @@ function initDocsLightbox() {
   }, 50);
 }
 
-/** One-shot scroll reveal for specialist cards + location block. */
+/** One-shot scroll reveal for specialist cards + docs + location. */
 function initReveal() {
   const targets = [
     ...document.querySelectorAll(".specialist__card"),
@@ -402,9 +491,11 @@ function initReveal() {
 
   const reveal = (el) => {
     el.classList.add("is-inview");
-    /* portrait Swiper was measured while media was opacity/transform animating */
-    el.querySelectorAll("[data-specialist-swiper]").forEach((node) => {
-      requestAnimationFrame(() => refreshSpecialistSwiper(node));
+    // After opacity/transform settles, one rAF update is enough
+    requestAnimationFrame(() => {
+      el.querySelectorAll("[data-specialist-swiper]").forEach((node) => {
+        refreshSpecialistSwiper(node);
+      });
     });
   };
 
@@ -422,7 +513,6 @@ function initReveal() {
         io.unobserve(entry.target);
       });
     },
-    /* later in viewport so motion is on-screen, not already done */
     { threshold: 0.22, rootMargin: "0px 0px -12% 0px" }
   );
 

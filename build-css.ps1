@@ -44,3 +44,11 @@ foreach ($rel in $files) {
 $outPath = Join-Path $root "css/style.css"
 [System.IO.File]::WriteAllText($outPath, $sb.ToString(), [System.Text.UTF8Encoding]::new($false))
 Write-Host "Built $outPath ($((Get-Item $outPath).Length) bytes)"
+
+# Also re-inline into index.html (keeps PageSpeed free of render-blocking CSS)
+$inlineScript = Join-Path $root "inline-css.mjs"
+if (Test-Path $inlineScript) {
+  node $inlineScript
+} else {
+  Write-Host "Skip inline: inline-css.mjs not found"
+}
