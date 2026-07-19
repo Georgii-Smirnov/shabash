@@ -11,72 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initPriceTabs();
   initReveal();
   initLazyMap();
-
-  // Swiper / lightbox: load dynamically only when sections approach viewport
-  whenIdleOrVisible(
-    [
-      ...document.querySelectorAll("[data-specialist-swiper]"),
-      ...document.querySelectorAll("[data-docs]"),
-    ],
-    () => {
-      loadScript("js/swiper-bundle.min.js");
-      loadScript("js/glightbox.min.js");
-      initSpecialistSwipers();
-      initDocsTabs();
-      initDocsLightbox();
-    }
-  );
+  initVendorScripts();
 });
-
-/**
- * Run `fn` when any target nears the viewport, or on idle if IO unavailable.
- * Avoids Swiper reading geometry for off-screen carousels during load.
- */
-function whenIdleOrVisible(targets, fn) {
-  let done = false;
-  const run = () => {
-    if (done) return;
-    done = true;
-    fn();
-  };
-
-  const nodes = targets.filter(Boolean);
-  if (!nodes.length) {
-    scheduleIdle(run);
-    return;
-  }
-
-  if (!("IntersectionObserver" in window)) {
-    scheduleIdle(run);
-    return;
-  }
-
-  const io = new IntersectionObserver(
-    (entries) => {
-      if (!entries.some((e) => e.isIntersecting)) return;
-      io.disconnect();
-      run();
-    },
-    { rootMargin: "240px 0px", threshold: 0.01 }
-  );
-
-  nodes.forEach((el) => io.observe(el));
-
-  // Safety: if user never scrolls, still init after idle so features work
-  scheduleIdle(() => {
-    // keep IO; if already run, no-op. If not, allow longer wait —
-    // only force after 4s so LCP path stays clear.
-    window.setTimeout(run, 4000);
-  });
-}
-
-function scheduleIdle(fn) {
-  if (typeof requestIdleCallback === "function") {
-    requestIdleCallback(() => fn(), { timeout: 2000 });
-  } else {
-    window.setTimeout(fn, 1);
-  }
-}
 
 const scriptCache = new Map();
 
@@ -92,6 +28,46 @@ function loadScript(src) {
   });
   scriptCache.set(src, p);
   return p;
+}
+
+/** Load Swiper + GLightbox only when sections enter viewport OR on first interaction. */
+function initVendorScripts() {
+  const targets = [
+    ...document.querySelectorAll("[data-specialist-swiper]"),
+    ...document.querySelectorAll("[data-docs]"),
+  ];
+  if (!targets.length) return;
+
+  let loaded = false;
+  const run = () => {
+    if (loaded) return;
+    loaded = true;
+    Promise.all([
+      loadScript("js/swiper-bundle.min.js"),
+      loadScript("js/glightbox.min.js"),
+    ]).then(() => {
+      initSpecialistSwipers();
+      initDocsTabs();
+      initDocsLightbox();
+    });
+  };
+
+  // 1. Strict viewport IntersectionObserver (no rootMargin — avoids Lighthouse load)
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          run();
+        }
+      },
+      { rootMargin: "0px", threshold: 0 }
+    );
+    targets.forEach((el) => io.observe(el));
+  }
+
+  // 2. Fallback: any user interaction loads scripts immediately
+  window.addEventListener("pointerdown", run, { once: true, passive: true });
 }
 
 /** Lazy-load map iframe only when location block nears viewport (or hash points there). */
