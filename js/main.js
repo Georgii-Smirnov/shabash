@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initPriceTabs();
   initReveal();
   initLazyMap();
+  initCookieConsent();
   initVendorScripts();
 });
 
@@ -593,4 +594,162 @@ function initReveal() {
   );
 
   targets.forEach((el) => io.observe(el));
+}
+
+/**
+ * Cookie consent banner.
+ *
+ * Persists decision (accept all / only essential) to localStorage under a
+ * versioned key. Bumping CONSENT_VERSION re-prompts every visitor.
+ *
+ * Markup contract: see index.html (role=dialog, data-cookie).
+ * The dialog is non-modal: page content stays interactive, focus is not
+ * trapped. The banner is a polite notice, not a blocker.
+ */
+const CONSENT_STORAGE_KEY = "shabash:cookie-consent";
+const CONSENT_VERSION = 1;
+const CONSENT_HIDE_DELAY = 600;
+
+function initCookieConsent() {
+  const banner = document.querySelector("[data-cookie]");
+  if (!banner) return;
+
+  const toggle = banner.querySelector("[data-cookie-toggle]");
+  const details = banner.querySelector("#cookie-details");
+  const actionButtons = banner.querySelectorAll("[data-cookie-action]");
+  const categoryInputs = banner.querySelectorAll("[data-cookie-category]");
+  const primaryBtn = banner.querySelector('[data-cookie-action="all"]');
+
+  // Public surface for footer "manage cookies" link / dev console.
+  const api = {
+    show: () => showBanner(),
+    hide: () => hideBanner(),
+    reset: () => clearConsent(),
+    read: () => readConsent(),
+  };
+  window.shabashConsent = api;
+
+  // Hydrate switches from saved decision (if any) so the details panel
+  // reflects reality, not the markup defaults.
+  const stored = readConsent();
+  if (stored && stored.decision) {
+    syncSwitches(stored.decision);
+  }
+
+  // Show only when no usable decision is stored.
+  if (!hasValidDecision(stored)) {
+    showBanner();
+  } else {
+    banner.hidden = true;
+  }
+
+  // —— Expand / collapse details ——
+  if (toggle && details) {
+    toggle.addEventListener("click", () => {
+      const open = toggle.getAttribute("aria-expanded") === "true";
+      setExpanded(!open);
+    });
+  }
+
+  // —— Action buttons: accept all / only essential ——
+  actionButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const action = btn.dataset.cookieAction;
+      if (action !== "all" && action !== "essential") return;
+      syncSwitches(action);
+      writeConsent(action);
+      hideBanner();
+    });
+  });
+
+  // —— External triggers (footer link, etc.) ——
+  document.querySelectorAll("[data-cookie-open]").forEach((el) => {
+    el.addEventListener("click", (event) => {
+      event.preventDefault();
+      clearConsent();
+      showBanner();
+    });
+  });
+
+  // —— Internal helpers ——
+  function setExpanded(open) {
+    if (!toggle || !details) return;
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    details.hidden = !open;
+    banner.classList.toggle("is-expanded", open);
+  }
+
+  function showBanner() {
+    banner.hidden = false;
+    document.body.classList.add("has-cookie");
+    // Two rAFs: first lets the browser mount the [hidden=false] state,
+    // second applies the class so the transition runs from translateY(110%)
+    // to translateY(0).
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        banner.classList.add("is-shown");
+        primaryBtn?.focus({ preventScroll: true });
+      });
+    });
+  }
+
+  function hideBanner() {
+    banner.classList.remove("is-shown");
+    setExpanded(false);
+    document.body.classList.remove("has-cookie");
+    window.setTimeout(() => {
+      if (!banner.classList.contains("is-shown")) {
+        banner.hidden = true;
+      }
+    }, CONSENT_HIDE_DELAY);
+  }
+
+  function syncSwitches(decision) {
+    const enabled = decision === "all";
+    categoryInputs.forEach((input) => {
+      // Disabled (essential) inputs are not touched.
+      if (input.disabled) return;
+      input.checked = enabled;
+    });
+  }
+
+  function hasValidDecision(consent) {
+    if (!consent || typeof consent !== "object") return false;
+    if (consent.v !== CONSENT_VERSION) return false;
+    return consent.decision === "all" || consent.decision === "essential";
+  }
+
+  function readConsent() {
+    try {
+      const raw = window.localStorage.getItem(CONSENT_STORAGE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function writeConsent(decision) {
+    try {
+      window.localStorage.setItem(
+        CONSENT_STORAGE_KEY,
+        JSON.stringify({
+          v: CONSENT_VERSION,
+          decision,
+          ts: Date.now(),
+        })
+      );
+    } catch {
+      /* localStorage may be unavailable (private mode, quota); banner still closes. */
+    }
+  }
+
+  function clearConsent() {
+    try {
+      window.localStorage.removeItem(CONSENT_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+  }
 }

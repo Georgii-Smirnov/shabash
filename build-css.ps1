@@ -17,7 +17,9 @@ $files = @(
   "css/blocks/specialist.css",
   "css/blocks/docs.css",
   "css/blocks/location.css",
-  "css/blocks/footer.css"
+  "css/blocks/footer.css",
+  "css/blocks/cookie.css",
+  "css/blocks/privacy.css"
 )
 
 $sb = [System.Text.StringBuilder]::new()
