@@ -10,13 +10,17 @@ document.addEventListener("DOMContentLoaded", () => {
   initAccordions();
   initPriceTabs();
   initReveal();
-  // Swiper / lightbox: wait until near viewport (or idle fallback)
+  initLazyMap();
+
+  // Swiper / lightbox: load dynamically only when sections approach viewport
   whenIdleOrVisible(
     [
       ...document.querySelectorAll("[data-specialist-swiper]"),
       ...document.querySelectorAll("[data-docs]"),
     ],
     () => {
+      loadScript("js/swiper-bundle.min.js");
+      loadScript("js/glightbox.min.js");
       initSpecialistSwipers();
       initDocsTabs();
       initDocsLightbox();
@@ -72,6 +76,57 @@ function scheduleIdle(fn) {
   } else {
     window.setTimeout(fn, 1);
   }
+}
+
+const scriptCache = new Map();
+
+function loadScript(src) {
+  if (scriptCache.has(src)) return scriptCache.get(src);
+  const p = new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.async = true;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error("Failed to load " + src));
+    document.head.appendChild(s);
+  });
+  scriptCache.set(src, p);
+  return p;
+}
+
+/** Lazy-load map iframe only when location block nears viewport (or hash points there). */
+function initLazyMap() {
+  const wrap = document.querySelector(".location__map-wrap");
+  const iframe = document.querySelector(".location__map");
+  if (!wrap || !iframe) return;
+  const src = iframe.dataset.src;
+  if (!src) return;
+
+  const activate = () => {
+    if (!iframe.src) iframe.src = src;
+  };
+
+  if (window.location.hash === "#location") {
+    activate();
+    return;
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    activate();
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        io.disconnect();
+        activate();
+      }
+    },
+    { rootMargin: "200px 0px" }
+  );
+
+  io.observe(wrap);
 }
 
 function initMenu() {
