@@ -380,38 +380,23 @@
   transform: translateY(0);
 }
 
-.specialist__details {
-  display: contents;
-}
-
-.specialist__panel-inner--single {
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    "about"
-    "prices"
-    "cta";
-}
-
-.specialist__about {
-  grid-area: about;
-  min-width: 0;
-  max-width: none;
-  padding: 0;
-  background: transparent;
-}
-
 /*
  * About row = same columns as .specialist__layout
  * [ copy | photo ]  or reverse [ photo | copy ]
  * Photo flush to card edge → center seam / уголок к уголку with main portrait.
  */
-.specialist__about-main {
+.specialist__about {
+  grid-area: about;
   display: grid;
   grid-template-columns: var(--specialist-col-left) var(--specialist-col-right);
   gap: 0;
   align-items: stretch;
   width: 100%;
   min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
 }
 
 .specialist__about-copy {
@@ -587,7 +572,7 @@
 .specialist__prices {
   grid-area: prices;
   min-width: 0;
-  margin-top: 0;
+  margin: 0;
   padding: clamp(1.35rem, 2.8vw, 1.85rem) var(--specialist-panel-pad-x)
     0;
   border-top: 1px solid var(--color-border);
@@ -599,6 +584,7 @@
   display: flex;
   width: 100%;
   min-width: 0;
+  margin: 0;
   margin-top: 0;
   padding: clamp(1.1rem, 2.2vw, 1.5rem) var(--specialist-panel-pad-x)
     var(--specialist-panel-pad-y);
@@ -1023,15 +1009,11 @@
     padding: 0;
   }
 
+  /* mobile: photo on top, then text — full width */
   .specialist__about,
   .specialist__card--reverse .specialist__about {
     max-width: none;
     padding: 0;
-  }
-
-  /* mobile: photo on top, then text — full width */
-  .specialist__about-main,
-  .specialist__card--reverse .specialist__about-main {
     grid-template-columns: 1fr;
   }
 

@@ -62,3 +62,11 @@ h6,
 p {
   margin: 0;
 }
+
+figure {
+  margin: 0;
+}
+
+address {
+  font-style: normal;
+}

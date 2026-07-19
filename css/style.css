@@ -8,8 +8,6 @@
 @import url("base/typography.css");
 @import url("base/layout.css");
 
-@import url("blocks/button.css");
-@import url("blocks/card.css");
 @import url("blocks/header.css");
 @import url("blocks/menu.css");
 @import url("blocks/hero.css");

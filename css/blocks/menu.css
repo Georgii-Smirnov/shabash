@@ -116,31 +116,21 @@
   visibility: visible;
 }
 
-.menu__head {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding: 0.35rem 0 1rem;
-  /* leave room so title doesn’t sit under the header burger/X */
-  padding-right: 3.25rem;
-  border-bottom: 1px solid rgba(28, 36, 32, 0.1);
-}
-
 .menu__title {
-  margin: 0;
+  margin: 0 0 2rem;
+  padding: 0.35rem 3.25rem 1rem 0;
+  /* leave room so title doesn’t sit under the header burger/X */
+  border-bottom: 1px solid rgba(28, 36, 32, 0.1);
   font-family: var(--font-family-display);
   font-size: 1.35rem;
+  font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-ink);
 }
 
-.menu__body {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+.menu__nav {
   margin-top: 0.25rem;
-  flex: 1 1 auto;
 }
 
 .menu__nav-list {
@@ -182,6 +172,7 @@
   margin-top: auto;
   padding-top: 1.25rem;
   border-top: 1px solid rgba(28, 36, 32, 0.1);
+  font-style: normal;
 }
 
 .menu__hours {
@@ -207,13 +198,6 @@
 .menu__contact:hover {
   color: var(--color-sage-dark);
   opacity: 1;
-}
-
-.menu__contact--phone {
-  font-size: 1.15rem;
-  font-weight: 600;
-  opacity: 1;
-  color: var(--color-sage-dark);
 }
 
 /* lock page scroll when open */
@@ -245,19 +229,10 @@ body.is-menu-open .burger {
 
 body.is-menu-open .header__address,
 body.is-menu-open .header__logo,
-body.is-menu-open .header__nav,
-body.is-menu-open .header__phone {
+body.is-menu-open .header__nav {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
-}
-
-/* kill phone glow orbs completely (they look like random white blobs) */
-body.is-menu-open .header__phone::before,
-body.is-menu-open .header__phone::after {
-  content: none !important;
-  display: none !important;
-  opacity: 0 !important;
 }
 
 /* burger: tablet + phone (iPad mini / Pro / phones) */
@@ -282,10 +257,6 @@ body.is-menu-open .header__phone::after {
   .menu__contact {
     font-size: 1.05rem;
   }
-
-  .menu__contact--phone {
-    font-size: 1.25rem;
-  }
 }
 
 @media (max-width: 640px) {
@@ -304,10 +275,6 @@ body.is-menu-open .header__phone::after {
 
   .menu__contact {
     font-size: 1rem;
-  }
-
-  .menu__contact--phone {
-    font-size: 1.15rem;
   }
 }
 

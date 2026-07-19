@@ -1,10 +1,19 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Шабаш — премиальная студия красоты">
-  <title>Шабаш — студия красоты</title>
+  <meta name="description" content="Шабаш — премиальная студия красоты в Москве: окрашивание и стрижки, ногтевой сервис, косметология. Только по предварительной записи, ул. Челюскинская, д. 9.">
+  <meta name="theme-color" content="#F2EDE4">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Шабаш — студия красоты в Москве">
+  <meta property="og:description" content="Премиальная студия красоты: колорист, ногтевой сервис и косметология. Только по предварительной записи.">
+  <meta property="og:image" content="img/hero.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Шабаш — студия красоты в Москве</title>
+  <link rel="icon" href="img/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="img/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,6 +25,7 @@
   <script src="js/main.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">К содержимому</a>
   <header class="header" id="header">
     <div class="header__inner">
       <a class="header__logo" href="./" aria-label="Шабаш — студия красоты">
@@ -68,40 +78,39 @@
   <div class="menu-overlay" id="menu-overlay" hidden></div>
 
   <aside class="menu" id="menu" aria-hidden="true" aria-labelledby="menu-title">
-    <div class="menu__head">
-      <p class="menu__title" id="menu-title">Меню</p>
-    </div>
+    <h2 class="menu__title" id="menu-title">Меню</h2>
 
-    <div class="menu__body">
-      <nav class="menu__nav" aria-label="Навигация">
-        <ul class="menu__nav-list">
-          <li><a class="menu__nav-link" href="#specialist">Специалисты</a></li>
-          <li><a class="menu__nav-link" href="#docs">Документы</a></li>
-          <li><a class="menu__nav-link" href="#location">Контакты</a></li>
-        </ul>
-      </nav>
+    <nav class="menu__nav" aria-label="Навигация">
+      <ul class="menu__nav-list">
+        <li><a class="menu__nav-link" href="#specialist">Специалисты</a></li>
+        <li><a class="menu__nav-link" href="#docs">Документы</a></li>
+        <li><a class="menu__nav-link" href="#location">Контакты</a></li>
+      </ul>
+    </nav>
 
-      <div class="menu__contacts">
-        <p class="menu__hours">Ежедневно с 10:00 до 21:00</p>
-        <a class="menu__contact" href="https://yandex.ru/maps/?text=Москва%2C%20ул.%20Челюскинская%2C%209" target="_blank" rel="noopener noreferrer">
-          г. Москва, ул. Челюскинская, д. 9
-        </a>
-      </div>
-    </div>
+    <address class="menu__contacts">
+      <p class="menu__hours">Только по предварительной записи</p>
+      <a class="menu__contact" href="https://yandex.ru/maps/?text=Москва%2C%20ул.%20Челюскинская%2C%209" target="_blank" rel="noopener noreferrer">
+        г. Москва, ул. Челюскинская, д. 9
+      </a>
+    </address>
   </aside>
 
-  <main class="main">
+  <main class="main" id="main">
     <section class="hero" id="hero" aria-labelledby="hero-title">
       <div class="hero__bg" aria-hidden="true">
-        <img
-          class="hero__photo"
-          src="img/image.jpg"
-          alt=""
-          width="1152"
-          height="864"
-          fetchpriority="high"
-          decoding="async"
-        >
+        <picture class="hero__picture">
+          <source srcset="img/hero.webp" type="image/webp">
+          <img
+            class="hero__photo"
+            src="img/hero.jpg"
+            alt=""
+            width="1280"
+            height="720"
+            fetchpriority="high"
+            decoding="async"
+          >
+        </picture>
         <div class="hero__overlay"></div>
         <div class="hero__sparkles">
           <span class="hero__sparkle"></span>
@@ -127,21 +136,19 @@
             Экспертный подход к раскрытию вашей природной красоты в студии «Шабаш»
           </h1>
 
-          <div class="hero__text">
-            <p>
-              Мы создали пространство, где каждый гость может почувствовать себя
-              особенным. Мастера нашей уютной студии уделяют внимание мельчайшим
-              деталям, чтобы результат превзошёл ваши ожидания. У&nbsp;нас царит
-              атмосфера спокойствия, уюта и&nbsp;лёгкого волшебства.
-            </p>
-          </div>
+          <p class="hero__text">
+            Мы создали пространство, где каждый гость может почувствовать себя
+            особенным. Мастера нашей уютной студии уделяют внимание мельчайшим
+            деталям, чтобы результат превзошёл ваши ожидания. У&nbsp;нас царит
+            атмосфера спокойствия, уюта и&nbsp;лёгкого волшебства.
+          </p>
 
           <div class="hero__buttons">
             <a class="hero__btn" href="#specialist">
               <span>Записаться к мастеру</span>
             </a>
 
-            <div class="hero__note">
+            <aside class="hero__note">
               <svg class="hero__note-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 4h16a2 2 0 012 2v10a2 2 0 01-2 2H8l-4 4V6a2 2 0 012-2z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" fill="none"/>
               </svg>
@@ -149,12 +156,12 @@
                 <strong>Напишите мастеру</strong>
                 <span>в Макс или WhatsApp</span>
               </p>
-            </div>
+            </aside>
           </div>
         </div>
       </div>
 
-      <a class="hero__scroll" href="#after-hero" aria-label="Скролл">
+      <a class="hero__scroll" href="#specialist" aria-label="К специалистам">
         <span class="hero__scroll-mouse" aria-hidden="true">
           <span class="hero__scroll-wheel"></span>
         </span>
@@ -163,11 +170,9 @@
       </a>
     </section>
 
-    <div id="after-hero" tabindex="-1"></div>
-
-    <section class="specialist section" id="specialist" aria-label="Специалисты">
+    <section class="specialist section" id="specialist" aria-labelledby="specialist-heading">
       <div class="container">
-        <!-- ACF: repeater masters → loop articles -->
+        <h2 class="visually-hidden" id="specialist-heading">Специалисты</h2>
         <div class="specialist__list">
           <article class="specialist__card" data-accordion>
             <div class="specialist__layout">
@@ -221,11 +226,9 @@
             >
               <div class="specialist__panel-clip">
                 <div class="specialist__panel-inner specialist__panel-inner--balanced">
-                  <div class="specialist__details">
-                    <div class="specialist__about">
-                      <div class="specialist__about-main">
-                        <div class="specialist__media specialist__media--side">
-                          <img
+                  <section class="specialist__about">
+                    <figure class="specialist__media specialist__media--side">
+                      <img
                             class="specialist__photo"
                             src="img/hair-tools.webp"
                             alt="Профессиональные инструменты и уход"
@@ -233,9 +236,9 @@
                             height="1200"
                             loading="lazy"
                             decoding="async"
-                          >
-                        </div>
-                        <div class="specialist__about-copy">
+                      >
+                    </figure>
+                    <div class="specialist__about-copy">
                           <h3 class="specialist__subtitle">О мастере</h3>
                           <p>
                             <strong>Юлия Дмитриченко</strong>
@@ -256,11 +259,10 @@
                             <li>подбор оттенка и&nbsp;формы стрижки с&nbsp;учётом трендов и&nbsp;вашей индивидуальности.</li>
                           </ul>
                           <p>Доверьте мне свой образ&nbsp;— создадим его вместе.</p>
-                        </div>
-                      </div>
                     </div>
+                  </section>
 
-                    <div class="specialist__prices" data-price-tabs>
+                  <section class="specialist__prices" data-price-tabs>
                       <h3 class="specialist__subtitle">Прайс</h3>
                       <div class="specialist__price-tabs" role="tablist" aria-label="Категории прайса">
                         <button class="specialist__price-tab is-active" type="button" role="tab" id="price-tab-1-1" aria-controls="price-panel-1-1" aria-selected="true" data-price-tab>Окрашивание в один тон</button>
@@ -402,9 +404,9 @@
                       <p class="specialist__price-note">
                         *доплата за&nbsp;густой волос рассчитывается индивидуально.
                       </p>
-                    </div>
+                  </section>
 
-                    <div class="specialist__cta specialist__cta--split">
+                  <footer class="specialist__cta specialist__cta--split">
                       <a class="specialist__book" href="https://max.ru/" target="_blank" rel="noopener noreferrer">
                         <span class="specialist__book-icon" data-icon="max" aria-hidden="true">
                           <img src="img/max-icon.svg" alt="" width="22" height="22" decoding="async">
@@ -419,8 +421,7 @@
                         </span>
                         <span class="specialist__book-text">Написать в&nbsp;WhatsApp</span>
                       </a>
-                    </div>
-                  </div>
+                  </footer>
                 </div>
               </div>
             </div>
@@ -478,11 +479,9 @@
             >
               <div class="specialist__panel-clip">
                 <div class="specialist__panel-inner specialist__panel-inner--balanced">
-                  <div class="specialist__details">
-                    <div class="specialist__about">
-                      <div class="specialist__about-main">
-                        <div class="specialist__media specialist__media--side">
-                          <img
+                  <section class="specialist__about">
+                    <figure class="specialist__media specialist__media--side">
+                      <img
                             class="specialist__photo"
                             src="img/nails.webp"
                             alt="Ногтевой сервис и уход"
@@ -490,9 +489,9 @@
                             height="1200"
                             loading="lazy"
                             decoding="async"
-                          >
-                        </div>
-                        <div class="specialist__about-copy">
+                      >
+                    </figure>
+                    <div class="specialist__about-copy">
                           <h3 class="specialist__subtitle">О мастере</h3>
                           <p>
                             <strong>Руслана Бутина</strong>
@@ -515,11 +514,10 @@
                             В&nbsp;индустрии с&nbsp;2015&nbsp;года — опыт, который помогает
                             предугадывать ваши желания.
                           </p>
-                        </div>
-                      </div>
                     </div>
+                  </section>
 
-                    <div class="specialist__prices">
+                  <section class="specialist__prices">
                       <h3 class="specialist__subtitle">Прайс</h3>
                       <ul class="specialist__price-list">
                         <li class="specialist__price-card">
@@ -571,17 +569,16 @@
                           <span class="specialist__price-value">1&nbsp;800&nbsp;₽</span>
                         </li>
                       </ul>
-                    </div>
+                  </section>
 
-                    <div class="specialist__cta">
+                  <footer class="specialist__cta">
                       <a class="specialist__book" href="https://max.ru/" target="_blank" rel="noopener noreferrer">
                         <span class="specialist__book-icon" data-icon="max" aria-hidden="true">
                           <img src="img/max-icon.svg" alt="" width="22" height="22" decoding="async">
                         </span>
                         <span class="specialist__book-text">Записаться в&nbsp;Макс</span>
                       </a>
-                    </div>
-                  </div>
+                  </footer>
                 </div>
               </div>
             </div>
@@ -642,11 +639,9 @@
             >
               <div class="specialist__panel-clip">
                 <div class="specialist__panel-inner">
-                  <div class="specialist__details">
-                    <div class="specialist__about">
-                      <div class="specialist__about-main">
-                        <div class="specialist__media specialist__media--side">
-                          <img
+                  <section class="specialist__about">
+                    <figure class="specialist__media specialist__media--side">
+                      <img
                             class="specialist__photo"
                             src="img/spa.webp"
                             alt="Косметология и уход за кожей"
@@ -654,9 +649,9 @@
                             height="1200"
                             loading="lazy"
                             decoding="async"
-                          >
-                        </div>
-                        <div class="specialist__about-copy">
+                      >
+                    </figure>
+                    <div class="specialist__about-copy">
                           <h3 class="specialist__subtitle">О мастере</h3>
                           <p>
                             <strong>Анна Михуринская</strong>
@@ -694,11 +689,10 @@
                             Индивидуальный подход и&nbsp;грамотный косметологический план процедур,
                             которые помогут повернуть время вспять.
                           </p>
-                        </div>
-                      </div>
                     </div>
+                  </section>
 
-                    <div class="specialist__prices" data-price-tabs>
+                  <section class="specialist__prices" data-price-tabs>
                       <h3 class="specialist__subtitle">Прайс</h3>
                       <div class="specialist__price-tabs" role="tablist" aria-label="Категории прайса">
                         <button class="specialist__price-tab is-active" type="button" role="tab" id="price-tab-3-1" aria-controls="price-panel-3-1" aria-selected="true" data-price-tab>Аппаратная</button>
@@ -771,10 +765,10 @@
                             <span class="specialist__price-value">1&nbsp;200&nbsp;₽</span>
                           </li>
                         </ul>
-                      </div>
                     </div>
+                  </section>
 
-                    <div class="specialist__cta specialist__cta--split">
+                  <footer class="specialist__cta specialist__cta--split">
                       <a class="specialist__book" href="https://max.ru/" target="_blank" rel="noopener noreferrer">
                         <span class="specialist__book-icon" data-icon="max" aria-hidden="true">
                           <img src="img/max-icon.svg" alt="" width="22" height="22" decoding="async">
@@ -796,8 +790,7 @@
                         </span>
                         <span class="specialist__book-text">Онлайн-запись</span>
                       </a>
-                    </div>
-                  </div>
+                  </footer>
                 </div>
               </div>
             </div>
@@ -805,14 +798,6 @@
         </div>
       </div>
     </section>
-
-    <!--
-      ACF:
-      masters[] → photo, name, role
-        certificates[] → image, alt
-      WP: pack + swiper-slide per certificate
-      Swiper: 1 / 2 / 3 slides, arrows + bullets, GLightbox on click
-    -->
     <section class="docs section" id="docs" aria-labelledby="docs-title" data-docs>
       <div class="container">
         <header class="docs__intro">
@@ -873,7 +858,6 @@
         </div>
 
         <div class="docs__packs">
-          <!-- Master 1: Юлия -->
           <div
             class="docs__pack is-active"
             id="docs-pack-1"
@@ -925,8 +909,6 @@
               <div class="docs__pagination"></div>
             </div>
           </div>
-
-          <!-- Master 2: Руслана -->
           <div
             class="docs__pack"
             id="docs-pack-2"
@@ -989,8 +971,6 @@
               <div class="docs__pagination"></div>
             </div>
           </div>
-
-          <!-- Master 3: Анна -->
           <div
             class="docs__pack"
             id="docs-pack-3"

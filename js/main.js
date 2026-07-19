@@ -23,10 +23,7 @@ function initMenu() {
   const focusableSelector =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-  let lastFocus = null;
-
   const open = () => {
-    lastFocus = document.activeElement;
     menu.classList.add("is-open");
     overlay.classList.add("is-open");
     overlay.hidden = false;

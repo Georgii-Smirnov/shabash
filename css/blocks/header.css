@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Header — logo | nav | address + phone (+ burger ≤1024)
+   Header — logo | nav | address (+ burger ≤1024)
    One solid bar always (no transparent → scrolled switch).
    ========================================================================== */
 
@@ -123,7 +123,7 @@
   outline-offset: 4px;
 }
 
-/* —— Actions: address + phone + burger —— */
+/* —— Actions: address + burger —— */
 .header__actions {
   display: flex;
   align-items: center;
@@ -169,92 +169,6 @@
   color: var(--color-sage-dark);
 }
 
-.header__phone {
-  position: relative;
-  z-index: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.45rem 0.75rem;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  font-family: var(--font-family-ui);
-  font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  line-height: 1;
-  color: var(--color-ink);
-  text-decoration: none;
-  transition: color 0.4s ease;
-}
-
-/* soft glow under phone — desktop only (on mobile it reads as a random blob) */
-.header__phone::before,
-.header__phone::after {
-  content: none;
-  pointer-events: none;
-}
-
-@media (min-width: 1025px) {
-  .header__phone::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    inset: -1.1rem -1.6rem;
-    border-radius: 999px;
-    background: rgba(250, 247, 241, 0.78);
-    filter: blur(22px);
-    opacity: 1;
-    transition:
-      background 0.45s ease,
-      filter 0.45s ease,
-      opacity 0.45s ease,
-      transform 0.45s ease;
-  }
-
-  .header__phone::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    inset: -0.55rem -0.85rem;
-    border-radius: 999px;
-    background: rgba(250, 247, 241, 0.55);
-    filter: blur(12px);
-    opacity: 1;
-    transition:
-      background 0.45s ease,
-      filter 0.45s ease,
-      opacity 0.45s ease;
-  }
-
-  .header__phone:hover::before {
-    background: rgba(250, 247, 241, 0.92);
-    filter: blur(26px);
-    transform: scale(1.04);
-  }
-
-  .header__phone:hover::after {
-    background: rgba(250, 247, 241, 0.68);
-    filter: blur(14px);
-  }
-}
-
-.header__icon--phone {
-  width: 1.05rem;
-  height: 1.05rem;
-  margin-top: -0.08rem;
-  transition: color 0.4s ease;
-}
-
-.header__phone:hover {
-  color: var(--color-sage-dark);
-}
-
-.header__phone:hover .header__icon--phone {
-  color: var(--color-sage-dark);
-}
-
 /* —— Tablet —— */
 @media (max-width: 1024px) {
   .header__inner {
@@ -278,22 +192,7 @@
     font-size: 0.78rem;
   }
 
-  .header__phone {
-    padding: 0.4rem 0.55rem;
-    font-size: 0.85rem;
-  }
-
-  .header__phone span {
-    white-space: nowrap;
-    font-size: 0.85rem;
-  }
-
   .header__icon {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  .header__icon--phone {
     width: 1rem;
     height: 1rem;
   }
@@ -333,13 +232,9 @@
     font-size: 0.75rem;
     letter-spacing: 0.11em;
   }
-
-  .header__phone {
-    font-size: 0.9rem;
-  }
 }
 
-/* compact tablet / large phone — hide address, keep logo + phone + burger */
+/* compact tablet / large phone — hide address, keep logo + burger */
 @media (max-width: 768px) {
   .header__address {
     display: none;
@@ -378,22 +273,6 @@
     gap: 0.1rem;
   }
 
-  .header__phone {
-    padding: 0.3rem 0.35rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-  }
-
-  .header__phone span {
-    font-size: 0.72rem;
-    font-weight: 600;
-  }
-
-  .header__icon--phone {
-    width: 0.9rem;
-    height: 0.9rem;
-  }
-
   .burger {
     width: 2.4rem;
     height: 2.4rem;
@@ -405,20 +284,5 @@
     max-width: min(120px, 36vw);
     max-height: 2.4rem;
   }
-
-  .header__phone {
-    font-size: 0.68rem;
-    padding: 0.25rem 0.2rem;
-  }
-
-  .header__phone span {
-    font-size: 0.68rem;
-  }
-
-  .header__icon--phone {
-    width: 0.85rem;
-    height: 0.85rem;
-  }
 }
-
 
